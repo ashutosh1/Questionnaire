@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131023141939) do
+ActiveRecord::Schema.define(version: 20131024073224) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -104,6 +104,10 @@ ActiveRecord::Schema.define(version: 20131023141939) do
     t.text     "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "provider"
+    t.string   "uid"
   end
+
+  add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", using: :btree
 
 end

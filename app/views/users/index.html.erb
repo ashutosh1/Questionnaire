@@ -1,0 +1,24 @@
+<%= render :partial => "form" %>
+<div class="page-header">
+  <h2>Users</h2>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>  
+      <th>Email</th>
+      <th>Actions</th>  
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td>
+          <%= link_to "Destroy", user_path(user), method: :delete %>
+        </td>
+      </tr>
+    <% end %>
+  <tbody>
+</table>   

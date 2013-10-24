@@ -1,0 +1,7 @@
+<%= form_for @user do |f| %>
+  <%= render :partial => "shared/errors", :locals => { :obj => @user } %>  
+  <%= f.label :email %><span class="requiredField"><%= mark_required(@user, 'email') %></span>
+  <%= f.email_field :email %>
+
+  <%= f.submit "Add Admin" %>
+<% end %>

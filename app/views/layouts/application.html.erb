@@ -7,8 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div class="flashMessageDiv">
+  <%= render partial: "layouts/flash_message" %> 
+</div>
+<div>
 
 <%= yield %>
-
+</div>
 </body>
 </html>
