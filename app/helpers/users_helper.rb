@@ -1,4 +1,5 @@
 module UsersHelper
+
   def attr_checked?(form_obj)
     return true if form_obj.object.persisted?
     if params[:user] && params[:user][:roles_users_attributes]
