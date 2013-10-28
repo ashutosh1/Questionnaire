@@ -1,0 +1,10 @@
+<% if flash[:alert] %>
+  $('div.flashMessageDiv').html("<%= escape_javascript(render :partial => 'layouts/flash_message')%>");
+  $('#user_email').val('');
+  $('input[type="checkbox"]').each(function(){
+    $(this).attr('checked', false);
+  });
+<% else %>
+  $('div.userFormDiv').html("<%= escape_javascript(render :partial => 'form' )%>");
+  $('div.flashMessageDiv').html("");
+<% end %>

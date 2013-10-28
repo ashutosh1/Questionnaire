@@ -6,6 +6,10 @@ gem 'mysql2', '~> 0.3.11'
 gem 'devise', '3.0.0.rc'
 gem 'omniauth-google-oauth2'
 gem 'cancan'
+gem 'delayed_job_active_record'
+gem "daemons"
+gem "auto_strip_attributes", "~> 2.0"
+gem  'permanent_records' 
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'

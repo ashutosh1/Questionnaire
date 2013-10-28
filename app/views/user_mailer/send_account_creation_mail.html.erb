@@ -1,0 +1,13 @@
+<body style="font-family: arial, verdana, sans-serif;font-size: 12px;line-height: 1em;">
+Hi <%= @user.name %>,<br style="clear:both;" /><br style="clear:both;" />
+<div id="account_creation" style="font-size: 12px;line-height:15px;">
+  Congratulations you are now member of Questionnaire as <%= @roles %>.<br />
+  Click on the below link to get started:<br />
+  <%= link_to "Go To Questionnaire", root_url, :target => "_blank", :style => "text-decoration:none;padding-left:8px;line-height:15px;" %>
+</div>
+<div style="font-size: 12px;line-height:15px;">
+  <p>Questionnaire is a test management and genration application of Vinsol.</p>
+</div>
+
+
+Thanks

@@ -1,0 +1,6 @@
+<% if flash[:alert] %>
+  $('div.flashMessageDiv').html("<%= escape_javascript(render :partial => 'layouts/flash_message')%>");
+<% else %>
+  $('div.questionLevelFormDiv').html("<%= escape_javascript(render :partial => 'form' )%>");
+  $('div.flashMessageDiv').html("");
+<% end %>

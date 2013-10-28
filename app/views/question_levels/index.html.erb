@@ -1,0 +1,26 @@
+<div class="questionLevelFormDiv">
+  <%= render :partial => "form" %>
+</div >
+<div class="page-header">
+  <h2>Question Levels</h2>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Associated Questions</th>  
+      <th>Actions</th>  
+    </tr>
+  </thead>
+  <tbody>
+    <% @question_levels.each do |question_level| %>
+      <tr>
+        <td><%= link_to question_level.name, question_level_path(question_level), :remote => true %></td>
+        <td><%= question_level.questions.size %></td>
+        <td>
+          <%= link_to "Destroy", question_level_path(question_level), method: :delete, data: {confirm: "are you sure"} %>
+        </td>
+      </tr>
+    <% end %>
+  <tbody>
+</table>   

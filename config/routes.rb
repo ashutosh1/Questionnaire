@@ -5,7 +5,10 @@ devise_scope :user do
   get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
 end
 
-resources :users, only: [:index, :create, :destroy]
+get "/users/(:type)", to: "users#index", as: "users"
+resources :users, except: [:edit, :new, :index]
+resources :question_types
+resources :question_levels
 
 root :to => "home#index"
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,0 +1,7 @@
+<%= form_for @question_level, :html => { id: "questionLevelForm" } do |f| %>
+  <%= render :partial => "shared/errors", :locals => { :obj => @question_level } %>  
+  <%= f.label :name %><span class="requiredField"><%= mark_required(@question_level, 'name') %></span>
+  <%= f.text_field :name %><br />
+
+  <%= f.submit %>
+<% end %>

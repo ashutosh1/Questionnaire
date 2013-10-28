@@ -1,0 +1,26 @@
+<div class="questionTypeFormDiv">
+  <%= render :partial => "form" %>
+</div >
+<div class="page-header">
+  <h2>Question Types</h2>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Associated Questions</th>  
+      <th>Actions</th>  
+    </tr>
+  </thead>
+  <tbody>
+    <% @question_types.each do |question_type| %>
+      <tr>
+        <td><%= link_to question_type.name, question_type_path(question_type), :remote => true %></td>
+        <td><%= question_type.questions.size %></td>
+        <td>
+          <%= link_to "Destroy", question_type_path(question_type), method: :delete, data: {confirm: "are you sure"} %>
+        </td>
+      </tr>
+    <% end %>
+  <tbody>
+</table>   

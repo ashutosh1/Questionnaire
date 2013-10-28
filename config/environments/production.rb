@@ -74,6 +74,19 @@ Questionnaire::Application.configure do
 
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default_url_options = { :host => 'questionnaire.vinsol.com', :only_path => false }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address => "smtp.mandrillapp.com",
+    :port => 587,
+    :enable_starttls_auto => true,
+    :user_name => "ashutosh.tiwari@vinsol.com",
+    :password => "33ziiA1GpFd4zxzsCm-Ffg",
+    :authentication => 'login',
+    :domain => 'questionnaire.vinsol.com'
+  }
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new

@@ -27,6 +27,8 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.1)
     atomic (1.1.14)
+    auto_strip_attributes (2.0.4)
+      activerecord (>= 3.0)
     bcrypt-ruby (3.1.2)
     builder (3.1.4)
     cancan (1.6.10)
@@ -43,12 +45,18 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     columnize (0.3.6)
+    daemons (1.1.9)
     debugger (1.6.2)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
       debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.3)
+    delayed_job (4.0.0)
+      activesupport (>= 3.0, < 4.1)
+    delayed_job_active_record (4.0.0)
+      activerecord (>= 3.0, < 4.1)
+      delayed_job (>= 3.0, < 4.1)
     devise (3.0.0.rc)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -100,6 +108,8 @@ GEM
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
     orm_adapter (0.4.0)
+    permanent_records (3.1.6)
+      activerecord (>= 3.0.0)
     polyglot (0.3.3)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -193,15 +203,19 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  auto_strip_attributes (~> 2.0)
   cancan
   capistrano
   coffee-rails (~> 4.0.0)
+  daemons
   debugger
+  delayed_job_active_record
   devise (= 3.0.0.rc)
   jbuilder (~> 1.2)
   jquery-rails
   mysql2 (~> 0.3.11)
   omniauth-google-oauth2
+  permanent_records
   rails (= 4.0.0)
   rails-erd
   rspec-rails

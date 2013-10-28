@@ -1,4 +1,10 @@
-<%= render :partial => "form" %>
+<div>
+  <%= link_to "Deleted Users", users_path("deleted") if !params[:type] %>
+  <%= link_to "Users", users_path if params[:type] %>
+</div>
+<div class="userFormDiv">
+  <%= render :partial => "form" %>
+</div >
 <div class="page-header">
   <h2>Users</h2>
 </div>
@@ -13,10 +19,10 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= user.name %></td>
+        <td><%= link_to user.name, user_path(user), :remote => true %></td>
         <td><%= user.email %></td>
         <td>
-          <%= link_to "Destroy", user_path(user), method: :delete %>
+          <%= link_to "Destroy", user_path(user), method: :delete, data: {confirm: "are you sure"} unless user == current_user %>
         </td>
       </tr>
     <% end %>
