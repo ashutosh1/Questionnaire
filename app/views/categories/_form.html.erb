@@ -1,0 +1,7 @@
+<%= form_for @category, :html => { id: "categoryForm" } do |f| %>
+  <%= render :partial => "shared/errors", :locals => { :obj => @category } %>  
+  <%= f.label :name %><span class="requiredField"><%= mark_required(@category, 'name') %></span>
+  <%= f.text_field :name %><br />
+
+  <%= f.submit %>
+<% end %>

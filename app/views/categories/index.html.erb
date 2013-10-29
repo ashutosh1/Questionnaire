@@ -1,0 +1,22 @@
+<div class="category">
+  <%= link_to 'Categories', "#", :id => "categoryIndexPageLink" %>
+</div>
+<div id="my_tree" class="filetree">
+</div>
+<script>
+  $('#categoryIndexPageLink').on('click', function(e){
+    e.preventDefault();
+      $.ajax({
+        type: "GET",
+        dataType: 'script',
+        url: '/categories'
+      });
+  });
+
+  // $(".categoryEditLink").on('click', function(e){
+  //   e.preventDefault();
+  //   console.log("sad"); 
+  //   console.log($(this));
+  // });
+</script>
+

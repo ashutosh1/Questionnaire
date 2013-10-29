@@ -8,6 +8,7 @@ Questionnaire::Application.routes.draw do
   resources :users, except: [:edit, :new, :index]
   resources :question_types
   resources :question_levels
+  resources :categories
 
   root :to => "home#index"  
 end

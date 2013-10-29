@@ -2,9 +2,10 @@ class CreateCategories < ActiveRecord::Migration
   def change
     create_table :categories do |t|
       t.string :name
-      t.integer :parent_id, :default => nil
+      t.string :ancestry
 
       t.timestamps
     end
+    add_index :categories, :ancestry
   end
 end
