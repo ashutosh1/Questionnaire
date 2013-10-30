@@ -17,7 +17,10 @@ class Question < ActiveRecord::Base
 
   accepts_nested_attributes_for :categories_questions, allow_destroy: true
   accepts_nested_attributes_for :options, allow_destroy: true, reject_if: proc { |attributes| attributes['option'].blank? }
+  
   has_paper_trail ignore: [:created_at, :updated_at]
+  acts_as_taggable
+  ActsAsTaggableOn.force_lowercase = true
    
   def published?
     published_at?

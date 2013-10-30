@@ -13,6 +13,8 @@ gem  'permanent_records'
 gem 'ancestry'
 gem "nested_form"
 gem 'paper_trail', '>= 3.0.0.rc1'
+gem 'acts-as-taggable-on'
+gem 'rails3-jquery-autocomplete', git: 'https://github.com/francisd/rails3-jquery-autocomplete'
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'uglifier', '>= 1.3.0'
