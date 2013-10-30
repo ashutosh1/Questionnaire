@@ -93,6 +93,7 @@ GEM
     multi_json (1.8.2)
     multipart-post (1.2.0)
     mysql2 (0.3.13)
+    nested_form (0.3.2)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.7.0)
@@ -112,6 +113,9 @@ GEM
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
     orm_adapter (0.4.0)
+    paper_trail (3.0.0.rc1)
+      activerecord (>= 3.0, < 5.0)
+      activesupport (>= 3.0, < 5.0)
     permanent_records (3.1.6)
       activerecord (>= 3.0.0)
     polyglot (0.3.3)
@@ -220,7 +224,9 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   mysql2 (~> 0.3.11)
+  nested_form
   omniauth-google-oauth2
+  paper_trail (>= 3.0.0.rc1)
   permanent_records
   rails (= 4.0.0)
   rails-erd

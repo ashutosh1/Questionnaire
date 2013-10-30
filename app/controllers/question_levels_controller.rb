@@ -1,7 +1,8 @@
 class QuestionLevelsController < ApplicationController
   before_action :find_question_levels, only: :index
   before_action :find_question_level, only: [:show, :update, :destroy]
-
+  authorize_resource
+  
   def index
     @question_level = QuestionLevel.new
   end

@@ -19,7 +19,7 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.name, user_path(user), :remote => true %></td>
+        <td><%= link_to user.name, user_path(user.id), :remote => true %></td>
         <td><%= user.email %></td>
         <td>
           <%= link_to "Destroy", user_path(user), method: :delete, data: {confirm: "are you sure"} unless user == current_user %>

@@ -1,7 +1,7 @@
 class Category < ActiveRecord::Base
-  auto_strip_attributes :name
+  include RestrictiveDestroy
 
-  before_destroy :destroyable?
+  auto_strip_attributes :name
 
   #All children are destroyed as well (default) if any node is destroyed
   has_ancestry
@@ -10,10 +10,6 @@ class Category < ActiveRecord::Base
   has_many :questions, through: :categories_questions
   
   validates :name, presence: true, uniqueness: { scope: :ancestry }
-
-  private
-    def destroyable?
-      questions.blank? && !descendants.includes(:questions).map{|c| c.questions.blank?}.include?(false)
-    end
+  has_paper_trail ignore: [:created_at, :updated_at]
 
 end

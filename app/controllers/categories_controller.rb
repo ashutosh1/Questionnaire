@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :find_category, only: [:update, :destroy]
-
+  authorize_resource
+  
   def index
     @categories = Category.all.arrange
   end

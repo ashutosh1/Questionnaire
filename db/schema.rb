@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131027183718) do
+ActiveRecord::Schema.define(version: 20131030114845) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -80,8 +80,10 @@ ActiveRecord::Schema.define(version: 20131027183718) do
     t.integer  "user_id",           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "published_at"
   end
 
+  add_index "questions", ["published_at"], name: "index_questions_on_published_at", using: :btree
   add_index "questions", ["question_level_id"], name: "index_questions_on_question_level_id", using: :btree
   add_index "questions", ["question_type_id"], name: "index_questions_on_question_type_id", using: :btree
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
@@ -129,5 +131,16 @@ ActiveRecord::Schema.define(version: 20131027183718) do
 
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", using: :btree
+
+  create_table "versions", force: true do |t|
+    t.string   "item_type",  null: false
+    t.integer  "item_id",    null: false
+    t.string   "event",      null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
 end

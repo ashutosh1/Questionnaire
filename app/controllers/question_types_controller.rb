@@ -1,7 +1,8 @@
 class QuestionTypesController < ApplicationController
   before_action :find_question_types, only: :index
   before_action :find_question_type, only: [:show, :update, :destroy]
-
+  authorize_resource
+  
   def index
     @question_type = QuestionType.new
   end

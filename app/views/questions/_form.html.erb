@@ -1,0 +1,24 @@
+<%= nested_form_for @question, :html => { id: "questionForm" } do |f| %>
+  <%= render :partial => "shared/errors", :locals => { :obj => @question } %>  
+  <%= f.label :question %><span class="requiredField"><%= mark_required(@question, 'question') %></span>
+  <%= f.text_area :question %><br /><br /><br />
+  <%= f.label :question_type %><span class="requiredField"><%= mark_required(@question, 'question_type_id') %></span>
+  <%= f.select :question_type_id, options_for_select(select_question_type, @question.question_type_id), include_blank: true %><br />
+  <%= f.label :question_level %><span class="requiredField"><%= mark_required(@question, 'question_level_id') %></span>
+  <%= f.select :question_level_id, options_for_select(select_question_level, @question.question_level_id), include_blank: true %><br />
+
+  <%= f.label :categories %><span class="requiredField"><%= mark_required(@question, 'question_level_id') %></span>
+
+  <%= f.fields_for :categories_questions, @categories_questions do |c| %>
+    <%= c.hidden_field :category_id %>
+    <%= c.check_box :_destroy, { :checked => category_checked?(c), :id => "#{c.object.category.name}_#{c.object.category.id}" }, '0', '1'  %>
+    <label for="<%= c.object.category.name + "_#{c.object.category.id}" %>">
+      <%= c.object.category.name %>
+    </label>&nbsp;
+  <% end %>
+  <div class="options">
+    <%= render :partial => "options", :locals => {:f => f}  %>
+  </div><br />
+
+  <%= f.submit %>
+<% end %>

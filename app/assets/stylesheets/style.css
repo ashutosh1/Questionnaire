@@ -1,2 +1,6 @@
 body { }
 a {text-decoration: none;color: rgb(0, 153, 255);}
+.specs-key{font-weight: bold;padding-right: 20px;}
+.specs-value{font-style: italic;font-size: 15px;}
+#optionsForm {display: inline-block;}
+#add_more_options{padding-left: 27px;float: right;padding-right: 923px;padding-top: 5px;}

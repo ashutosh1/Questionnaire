@@ -1,0 +1,33 @@
+<div>
+  <%= link_to "Add new question", new_question_path %>
+</div>
+<div class="page-header">
+  <h2>Questions</h2>
+</div>
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>  
+      <th>Level</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Added by</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @questions.each do |question| %>
+      <tr>
+        <td width="25%"><%= link_to question.question, question_path(question) %></td>
+        <td><%= question.question_level.name %></td>
+        <td><%= question.question_type.name %></td>
+        <td width="25%"><%= question.categories.collect(&:name).join(', ') %></td>
+        <td><%= question.user.name %></td>
+        <td>
+          <%= link_to "Edit", edit_question_path(question) %>
+          <%= link_to "Destroy", question_path(question), method: :delete, data: {confirm: "are you sure"} %>
+        </td>
+      </tr>
+    <% end %>
+  <tbody>
+</table>   

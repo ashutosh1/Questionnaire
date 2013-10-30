@@ -1,0 +1,23 @@
+<h2><%= @question.question_type.name %>(<%= @question.question_level.name %>) question <%= @question.id %></h2>
+
+<table class="fk-specs-type2">
+  <tbody>
+    <tr>
+      <td class="specs-key">Question</td>
+      <td class="specs-value"><%= @question.question %></td>
+    </tr>
+    <tr>
+      <td class="specs-key">Level</td>
+      <td class="specs-value"><%= @question.question_level.name %></td>
+    </tr>
+    <tr>
+      <td class="specs-key">Type</td>
+      <td class="specs-value"><%= @question.question_type.name %></td>
+    </tr>
+    <tr>
+      <td class="specs-key">categories</td>
+      <td class="specs-value"><%= @question.categories.collect(&:name).join(", ") %></td>
+    </tr>
+    
+  </tbody>
+</table>
