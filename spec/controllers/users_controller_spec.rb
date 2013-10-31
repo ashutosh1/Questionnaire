@@ -156,7 +156,6 @@ describe UsersController do
   let(:roles_user2) { mock_model(RolesUser) }
   
   before do
-    @user2 = User.create!(email: "tessssst2@vinsol.com")
     controller.stub(:current_user).and_return(user)
     @users = [user]
     @valid_attributes = { :email => "test@vinsol.com" }
@@ -479,40 +478,30 @@ describe UsersController do
     end
   end
 
-  describe "params_user" do 
-    describe "should_receive methods" do 
-      def send_request
-        put :update, user: {email: "test@vinsol.com", roles: [role1.id]}, id: user.id
-      end
-    
-      before do 
-        should_authorize(:update, user)
-        User.stub(:find).and_return(user)
-        user.stub(:update_attributes).and_return(true)
-        @params = {:user => {:email => "testy@vinsol.com"}, :id => user.id}
-        @parameters = {:email => "testy@vinsol.com"}
-        controller.stub(:params).and_return(@params)
-        @params.stub(:require).with(:user).and_return(@parameters)
-        @parameters.stub(:permit).with(:email, :roles_users_attributes => [:id, :role_id, :_destroy]).and_return(@parameters)        
-      end
+  describe "params_user" do
+    def send_request
+      post :create, user: {name: 'Sideshow', email: 'abc@vinsol.com',
+        roles_users_attributes: {"0"=>{"role_id"=>"1", "_destroy"=>"0"} }       
+       }
+    end
 
-      it "should_receive params" do 
-        controller.should_receive(:params).and_return(@params)
-      end
+    before do 
+      should_authorize(:create, User)
+    end
 
-      it "should_receive require" do 
-        @params.should_receive(:require).with(:user).and_return(@parameters)
-      end
+    it 'should_receive with email only' do
+      User.should_receive(:new).with({email: 'abc@vinsol.com'}.with_indifferent_access)
+      post :create, user: { first_name: 'Sideshow', last_name: 'Bob', email: 'abc@vinsol.com' }
+    end
+   
+    it "should_receive email and role_users_attributes only" do 
+      User.should_receive(:new).with({email: 'abc@vinsol.com', roles_users_attributes: {"0"=>{"role_id"=>"1", "_destroy"=>"0"}}}.with_indifferent_access)
+      send_request
+    end
 
-      it "should_receive permit" do 
-        @parameters.should_receive(:permit).with(:email, :roles_users_attributes => [:id, :role_id, :_destroy]).and_return(@parameters)
-      end
-
-      after do
-        send_request
-      end
+    it "new should_not_receive params_user with name" do 
+      User.should_not_receive(:new).with({name: 'Sideshow', email: 'abc@vinsol.com', roles_users_attributes: {"0"=>{"role_id"=>"1", "_destroy"=>"0"}}}.with_indifferent_access)
+      send_request
     end
   end
-
-
 end

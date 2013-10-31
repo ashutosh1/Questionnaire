@@ -46,7 +46,6 @@ class UsersController < ApplicationController
 
   private
     def params_user
-      p params 
       params.require(:user).permit(:email, :roles_users_attributes => [:id, :role_id, :_destroy])
     end
 
