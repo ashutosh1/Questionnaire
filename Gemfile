@@ -9,7 +9,7 @@ gem 'cancan'
 gem 'delayed_job_active_record'
 gem "daemons"
 gem "auto_strip_attributes", "~> 2.0"
-gem  'permanent_records' 
+gem 'permanent_records' 
 gem 'ancestry'
 gem "nested_form"
 gem 'paper_trail', '>= 3.0.0.rc1'

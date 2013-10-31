@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :find_user, only: [:destroy, :update, :show]
+  load_resource only: [:destroy, :update, :show]
   authorize_resource
 
   def index
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     if @user.destroy
       flash[:notice] = "#{@user.name} deleted successfully"
     else
-      flash[:notice] = "#{@user.name} could not deleted"
+      flash[:alert] = "#{@user.name} could not deleted"
     end
     redirect_to users_path
   end
@@ -46,16 +46,12 @@ class UsersController < ApplicationController
 
   private
     def params_user
+      p params 
       params.require(:user).permit(:email, :roles_users_attributes => [:id, :role_id, :_destroy])
     end
 
     def find_users
       @users = User.not_deleted.order("created_at desc")
-    end
-
-    def find_user
-      @user = User.not_deleted.where(id: params[:id]).first
-      redirect_to :back, :notice => "There is no user with id: #{params[:id]}" unless @user
     end
 
     def build_roles_users
