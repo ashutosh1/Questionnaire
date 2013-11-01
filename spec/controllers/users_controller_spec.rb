@@ -144,8 +144,6 @@ describe UsersController do
         expect{ send_request }.to raise_exception
       end
     end
-
-
   end
 
   let(:user) { mock_model(User, save: true, id: 1, email: "ashutosh.tiwari@vinsol.com") }

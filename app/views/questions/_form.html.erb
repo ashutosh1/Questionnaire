@@ -16,9 +16,18 @@
       <%= c.object.category.name %>
     </label>&nbsp;
   <% end %>
+  <div id='addTags'>
+    <%= f.label :tags_field %>
+    <div>
+      <%= f.autocomplete_field :tags_field, autocomplete_tag_name_questions_path %>
+      <span id='addTagButton' onclick='addTags()'>Add</span>
+      <div id='tags'></div>
+    </div>  
+  </div>
+
   <div class="options">
     <%= render :partial => "options", :locals => {:f => f}  %>
   </div><br />
 
-  <%= f.submit %>
+  <%= f.submit nil, :class => 'btn btn-primary', :onclick => "fillTagContent()" %>
 <% end %>

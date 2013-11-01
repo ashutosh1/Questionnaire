@@ -108,5 +108,39 @@ describe Question do
     end
   end
 
+  describe "#destroyable_by_user?" do 
+    context "user created question" do 
+      it "should return true" do 
+        @question.destroyable_by_user?(@user).should eq(true)
+      end
+    end
+
+    context "user not created question" do 
+      before do 
+        @question.update_column(:user_id, 90001)
+      end
+
+      context "user is super_admin" do 
+        before do 
+          @user.stub(:has_role?).with(:super_admin).and_return(true)
+        end
+
+        it "should return true" do 
+          @question.destroyable_by_user?(@user).should eq(true)
+        end
+      end
+
+      context "user is not super_admin" do 
+        before do 
+          @user.stub(:has_role?).with(:super_admin).and_return(false)
+        end
+
+        it "should return false" do 
+          @question.destroyable_by_user?(@user).should eq(false)
+        end
+      end
+    end
+  end
+
 
 end

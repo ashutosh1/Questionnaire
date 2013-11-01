@@ -1,5 +1,6 @@
 class Question < ActiveRecord::Base
-  
+  include Taggable
+     
   has_and_belongs_to_many :test_sets
   has_many :categories_questions, dependent: :destroy
   has_many :categories, through: :categories_questions
@@ -19,8 +20,6 @@ class Question < ActiveRecord::Base
   accepts_nested_attributes_for :options, allow_destroy: true, reject_if: proc { |attributes| attributes['option'].blank? }
   
   has_paper_trail ignore: [:created_at, :updated_at]
-  acts_as_taggable
-  ActsAsTaggableOn.force_lowercase = true
    
   def published?
     published_at?
@@ -32,5 +31,9 @@ class Question < ActiveRecord::Base
 
   def unpublish
     update_attributes(published_at: nil)
+  end
+
+  def destroyable_by_user?(current_user)
+    user == current_user || current_user.has_role?(User::ROLES.first.to_sym)
   end
 end

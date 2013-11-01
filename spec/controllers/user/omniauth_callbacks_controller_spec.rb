@@ -47,7 +47,7 @@ describe Users::OmniauthCallbacksController do
         controller.should_not_receive(:authorize_resource)
       end
 
-      it "should_not_receive authorize_resource" do 
+      it "should_not_receive authorize!" do 
         controller.should_not_receive(:authorize!)
       end
       after do 

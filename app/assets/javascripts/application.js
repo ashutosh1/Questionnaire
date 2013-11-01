@@ -12,8 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
-//= require_tree .
-// jquery.treeview
-// require jquery.ui.all
-//= require jquery_nested_form
+//= require autocomplete-rails
+//= require jquery.ui.autocomplete
+//= require shared

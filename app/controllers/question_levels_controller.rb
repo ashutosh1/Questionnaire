@@ -1,6 +1,6 @@
 class QuestionLevelsController < ApplicationController
   before_action :find_question_levels, only: :index
-  before_action :find_question_level, only: [:show, :update, :destroy]
+  load_resource only: [:destroy, :update, :show]
   authorize_resource
   
   def index
@@ -18,6 +18,7 @@ class QuestionLevelsController < ApplicationController
   end
 
   def show
+    return redirect_to request.referrer if !request.xhr?
   end
 
   def update
@@ -41,11 +42,6 @@ class QuestionLevelsController < ApplicationController
   private
     def find_question_levels
       @question_levels = QuestionLevel.order('created_at desc')
-    end
-
-    def find_question_level
-      @question_level = QuestionLevel.where(id: params[:id]).includes(:questions).first
-      redirect_to :back, :alert => "No question type found for specified id" unless @question_level
     end
 
     def params_question_level

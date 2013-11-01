@@ -10,7 +10,11 @@ Questionnaire::Application.routes.draw do
   resources :question_types
   resources :question_levels
   resources :categories
-  resources :questions
+  resources :questions do
+    collection do 
+      get :autocomplete_tag_name
+    end
+  end
   get "/get_options", to: "questions#get_options"
   root :to => "home#index"  
 end

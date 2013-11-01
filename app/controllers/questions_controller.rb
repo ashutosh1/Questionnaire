@@ -1,4 +1,7 @@
 class QuestionsController < ApplicationController
+  include ActsAsTaggableOn
+  autocomplete :tag, :name, :class_name => ActsAsTaggableOn::Tag, :full => true
+  
   before_action :find_question, only: [:show, :update, :destroy, :edit]
   authorize_resource
 
@@ -54,7 +57,7 @@ class QuestionsController < ApplicationController
     end
 
     def params_question
-      params.require(:question).permit(:question, :question_level_id, :question_type_id, :user_id, :categories_questions_attributes => [:category_id, :id, :_destroy], :options_attributes => [:option, :answer, :id, :_destroy])
+      params.require(:question).permit(:question, :question_level_id, :question_type_id, :user_id, :tags_field, :categories_questions_attributes => [:category_id, :id, :_destroy], :options_attributes => [:option, :answer, :id, :_destroy])
     end
 
     def build_categories_questions

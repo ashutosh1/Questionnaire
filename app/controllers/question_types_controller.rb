@@ -1,6 +1,6 @@
 class QuestionTypesController < ApplicationController
   before_action :find_question_types, only: :index
-  before_action :find_question_type, only: [:show, :update, :destroy]
+  load_resource only: [:destroy, :update, :show]
   authorize_resource
   
   def index
@@ -18,6 +18,7 @@ class QuestionTypesController < ApplicationController
   end
 
   def show
+    return redirect_to request.referrer if !request.xhr?
   end
 
   def update
@@ -41,11 +42,6 @@ class QuestionTypesController < ApplicationController
   private
     def find_question_types
       @question_types = QuestionType.order('created_at desc')
-    end
-
-    def find_question_type
-      @question_type = QuestionType.where(id: params[:id]).includes(:questions).first
-      redirect_to :back, :alert => "No question type found for specified id" unless @question_type
     end
 
     def params_question_type
