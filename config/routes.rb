@@ -14,6 +14,9 @@ Questionnaire::Application.routes.draw do
     collection do 
       get :autocomplete_tag_name
     end
+    member do 
+      delete :remove_tag
+    end
   end
   get "/get_options", to: "questions#get_options"
   root :to => "home#index"  

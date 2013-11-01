@@ -1,0 +1,11 @@
+<% if @question.tag_list.present? %>
+  <span class='control-label'>Associated Tags</span>
+  <div class="controls">
+    <% @question.tag_list.each do |name| %>
+      <span class="associatedTags">
+        <%= link_to 'a', remove_tag_question_path(@question, tag_name: name), :method => :delete,  :class => 'icon-remove', :remote => true,:data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?'))} %>
+        <%= name %>
+      </span>
+    <% end %>
+  </div>
+<% end %>

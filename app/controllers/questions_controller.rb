@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   include ActsAsTaggableOn
   autocomplete :tag, :name, :class_name => ActsAsTaggableOn::Tag, :full => true
   
-  before_action :find_question, only: [:show, :update, :destroy, :edit]
+  before_action :find_question, only: [:show, :update, :destroy, :edit, :remove_tag]
   authorize_resource
 
   def index
@@ -47,6 +47,11 @@ class QuestionsController < ApplicationController
       flash[:alert] = "Question could not be deleted. please delete the associated questions first"
     end
     redirect_to questions_path
+  end
+
+  def remove_tag
+    @question.remove_tags(params[:tag_name])
+    flash.now[:notice] = "Tag #{params[:tag_name]} has been removed successfully"
   end
 
   private

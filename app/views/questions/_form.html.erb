@@ -24,6 +24,13 @@
       <div id='tags'></div>
     </div>  
   </div>
+  <% if !@question.new_record? %>
+    <div class="control-group">
+      <div id="showFlashMsg"></div>
+      <div id="associatedTags"><%= render :partial => 'show_tag' %></div>
+    </div>
+  <% end %>  
+
 
   <div class="options">
     <%= render :partial => "options", :locals => {:f => f}  %>

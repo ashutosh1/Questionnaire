@@ -1,4 +1,3 @@
-
 function showProgress() {
   $("#progressContainer").html("<div class='progress'></div><div class='loadingText'>Loading...</div>")
 }
