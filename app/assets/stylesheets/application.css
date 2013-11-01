@@ -11,7 +11,7 @@
  *= require_self
  *= require_tree .
  *= style
+ *= jquery.treeview	
  *= require jquery.ui.autocomplete
  *= require jquery.ui.theme 
- *= jquery.treeview
  */

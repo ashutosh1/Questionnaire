@@ -204,6 +204,7 @@ GEM
       atomic
     tilt (1.4.1)
     tins (0.12.0)
+    tree_view (0.2)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -248,5 +249,6 @@ DEPENDENCIES
   simplecov
   simplecov-rcov
   therubyracer
+  tree_view
   turbolinks
   uglifier (>= 1.3.0)

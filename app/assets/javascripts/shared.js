@@ -41,3 +41,14 @@ function delTag(currentTag) {
   $(currentTag).remove();
 }
 
+$(function() {
+  $('#categoryIndexPageLink').on('click', function(e){
+    e.preventDefault();
+      $.ajax({
+        type: "GET",
+        dataType: 'script',
+        url: '/categories'
+      });
+  });
+});
+

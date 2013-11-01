@@ -21,7 +21,7 @@ describe Question do
     it { should belong_to(:question_level) }
     it { should belong_to(:question_type) }
 
-    it { should have_many(:options) }
+    it { should have_many(:options).dependent(:destroy) }
     it { should have_many(:categories).through(:categories_questions) }
     it { should have_many(:categories_questions).dependent(:destroy) }
     it { should have_and_belong_to_many(:test_sets) }

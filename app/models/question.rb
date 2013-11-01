@@ -4,7 +4,7 @@ class Question < ActiveRecord::Base
   has_and_belongs_to_many :test_sets
   has_many :categories_questions, dependent: :destroy
   has_many :categories, through: :categories_questions
-  has_many :options
+  has_many :options, dependent: :destroy
   has_many :answers, -> { where.not(answer: false)  }, class_name: 'Option'
   
   belongs_to :user
