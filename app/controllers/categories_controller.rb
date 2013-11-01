@@ -1,21 +1,18 @@
 class CategoriesController < ApplicationController
   before_action :find_category, only: [:update, :destroy]
+  before_action :find_parent_and_initialize, only: :create
   authorize_resource
   
   def index
     @categories = Category.all.arrange
-  end
-
-  def new
-    @category = Category.new(ancestry_id: params[:ancestry_id])
+    @category = Category.new
   end
 
   def create
-    @category = Category.new params_category
     if @category.save
       redirect_to categories_path, :notice => "#{@category.name} has been created successfully"
     else
-      render :new
+      render :index
     end
   end
 
@@ -37,11 +34,20 @@ class CategoriesController < ApplicationController
 
   private 
     def params_category
-      params.require(:category).permit(:name, :ancestry_id)
+      params.require(:category).permit(:name, :ancestry)
     end
 
     def find_category
       @category = Category.where(id: params[:id]).first
       redirect_to :back, :alert => "Category not found for specified id" unless @category
+    end
+
+    def find_parent_and_initialize
+      if params[:category] && params[:category][:parent].blank?
+        @category = Category.roots.build params_category
+      else
+        parent = Category.where(id: params[:category][:parent]).first
+        @category = parent.children.build params_category
+      end
     end
 end

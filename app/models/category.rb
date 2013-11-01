@@ -9,7 +9,7 @@ class Category < ActiveRecord::Base
   has_many :categories_questions, dependent: :destroy
   has_many :questions, through: :categories_questions
   
-  validates :name, presence: true, uniqueness: { scope: :ancestry }
+  validates :name, presence: true
   has_paper_trail ignore: [:created_at, :updated_at]
 
 end

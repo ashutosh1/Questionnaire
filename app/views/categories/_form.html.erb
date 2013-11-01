@@ -1,7 +1,9 @@
 <%= form_for @category, :html => { id: "categoryForm" } do |f| %>
   <%= render :partial => "shared/errors", :locals => { :obj => @category } %>  
   <%= f.label :name %><span class="requiredField"><%= mark_required(@category, 'name') %></span>
-  <%= f.text_field :name %><br />
+  <%= f.text_field :name %>
+  <%= f.label :parent %>
+  <%= f.select 'parent', fetch_categories, {:include_blank => true} %>
 
   <%= f.submit %>
 <% end %>
