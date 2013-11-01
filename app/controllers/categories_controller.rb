@@ -4,7 +4,6 @@ class CategoriesController < ApplicationController
   
   def index
     @categories = Category.all.arrange
-    @category = Category.new
   end
 
   def new

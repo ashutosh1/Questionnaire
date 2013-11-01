@@ -24,7 +24,6 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
-gem 'tree_view'
 
 gem 'debugger', group: [:development, :test]
 
