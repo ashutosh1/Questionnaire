@@ -1,4 +1,6 @@
 class Role < ActiveRecord::Base
+  include Audit
+  
   has_many :roles_users, dependent: :destroy
   has_many :users, through: :roles_users
 

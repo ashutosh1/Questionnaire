@@ -14,7 +14,6 @@ describe Category do
 
   describe 'validation' do 
     it { should validate_presence_of(:name) }
-    it { should validate_uniqueness_of(:name).scoped_to(:ancestry) }
   end
 
   describe "association" do 
@@ -27,11 +26,6 @@ describe Category do
     before do 
       @category1 = Category.new(:name => '  Test  ')
     end
-
-    it "valid? should return false if it find name is present in db after strip" do
-      category = Category.new(:name => '    GS     ')
-      category.valid?.should eq(false) 
-    end  
 
     it 'should strip white space from start and end of property_group name and then validate it' do
       @category1.valid?
@@ -60,5 +54,11 @@ describe Category do
       @category.methods.include?(:apply_orphan_strategy).should be_true
     end
   end
+
+  describe "#to_node" do 
+   it "should return a hash with name and id" do 
+    @category.to_node.should eq({"label"=>"#{@category.name}", "id"=> @category.id,"children"=>[]})
+   end
+ end
 
 end

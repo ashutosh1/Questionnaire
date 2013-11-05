@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Question do 
+
+  it_should "use taggable module"
   
   before(:each) do 
     @user = User.create(email: "ashutosh.tiwari@vinsol.com")

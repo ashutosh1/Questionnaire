@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   include SendEmail
   include FindForGoogleOauth
+  include Audit
 
   devise :omniauthable, :omniauth_providers => [:google_oauth2]
   
@@ -10,7 +11,6 @@ class User < ActiveRecord::Base
   has_many :roles_users, dependent: :destroy
   has_many :roles, through: :roles_users
   has_many :questions
-  has_paper_trail ignore: [:created_at, :updated_at]
 
   ROLES = %w[super_admin admin]
   

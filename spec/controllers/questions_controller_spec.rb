@@ -137,6 +137,8 @@ describe QuestionsController do
   let(:question) { mock_model(Question, save: true, id: 1, question: "what is sql?", question_type_id: question_type.id, question_level_id: question_level.id, user_id: user.id) }
   let(:categories_question1) {mock_model(CategoriesQuestion, save: true, category_id: category1.id, question_id: question.id)}
   let(:categories_question2) {mock_model(CategoriesQuestion, save: true, category_id: category2.id, question_id: question.id)}
+  let(:tag) {mock_model(ActsAsTaggableOn::Tag, save: true, name: 'outdated')} 
+  let(:tagging) {mock_model(ActsAsTaggableOn::Tagging)} 
 
   before do
     controller.stub(:current_user).and_return(user)
@@ -488,6 +490,42 @@ describe QuestionsController do
       send_request
     end
   end
+  
+  describe "autocomplete" do 
+    it "should define autocomplete method for tag name" do 
+      QuestionsController.method_defined?(:autocomplete_tag_name).should be_true
+    end
+  end
 
+  describe "remove_tag" do 
+    def send_request
+      xhr :put, :remove_tag, id: question.id, tag_name: tag.name
+    end
+
+    it_should 'should_receive authorize_resource'
+    it_should "call before_action find_user" 
+
+    before do 
+      should_authorize(:remove_tag, question)
+      Question.stub(:where).with(id: question.id.to_s).and_return(@questions)
+      @questions.stub(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
+      question.stub(:remove_tags).with(tag.name).and_return(true)
+    end
+
+    it "should_receive remove_tags" do 
+      question.should_receive(:remove_tags).with(tag.name).and_return(true)
+      send_request
+    end
+
+    it "should have flash notice" do 
+      send_request
+      flash[:notice].should eq("Tag #{tag.name} has been removed successfully")
+    end
+
+    it "should render_template remove_tag" do 
+      send_request
+      response.should render_template "remove_tag"
+    end
+  end
 
 end

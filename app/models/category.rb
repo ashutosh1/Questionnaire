@@ -1,5 +1,6 @@
 class Category < ActiveRecord::Base
   include RestrictiveDestroy
+  include Audit
 
   auto_strip_attributes :name
 
@@ -10,6 +11,9 @@ class Category < ActiveRecord::Base
   has_many :questions, through: :categories_questions
   
   validates :name, presence: true
-  has_paper_trail ignore: [:created_at, :updated_at]
+  
+  def to_node
+    { "label" => name, "id" => id, "children" => children.map { |c| c.to_node } }
+  end
 
 end

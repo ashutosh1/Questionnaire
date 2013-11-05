@@ -3,7 +3,6 @@ module Taggable
 
   included do
     acts_as_taggable
-    ActsAsTaggableOn.force_lowercase = true
     before_save :add_tags
     attr_accessor :tags_field  
   end

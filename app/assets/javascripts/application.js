@@ -12,7 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= jquery.treeview
+//= require_tree .
+//= tree.jquery
 //= require autocomplete-rails
 //= require jquery.ui.autocomplete
 //= require jquery_nested_form

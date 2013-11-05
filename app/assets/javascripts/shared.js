@@ -1,3 +1,22 @@
+function getAndShowTreeData(){
+  $.getJSON(
+    '/categories',
+    function(data) {
+      var items = [];
+      //jqtree needs a specific format so removing key
+      $.each( data, function( k,v ) {
+        items.push(v);
+      });
+      //open tree view 
+      $('#my_tree').tree({
+        data: items,
+        dragAndDrop: true,
+        autoOpen: true
+      });
+    }
+  );
+}
+
 function showProgress() {
   $("#progressContainer").html("<div class='progress'></div><div class='loadingText'>Loading...</div>")
 }
@@ -40,15 +59,3 @@ function fillTagContent() {
 function delTag(currentTag) {
   $(currentTag).remove();
 }
-
-$(function() {
-  $('#categoryIndexPageLink').on('click', function(e){
-    e.preventDefault();
-      $.ajax({
-        type: "GET",
-        dataType: 'script',
-        url: '/categories'
-      });
-  });
-});
-

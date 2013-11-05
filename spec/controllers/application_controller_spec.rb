@@ -11,7 +11,11 @@ describe ApplicationController do
     before_filter :set_current_user
 
     def index
-      render :nothing => true
+      raise CanCan::AccessDenied
+    end
+
+    def show
+      raise ActionController::RedirectBackError 
     end
   end
   
@@ -36,6 +40,33 @@ describe ApplicationController do
         send_request
         Thread.current[:ip].should eq(request.try(:ip))
       end
+    end
+  end
+
+  describe "rescue_from CanCan::AccessDenied" do 
+    def send_request
+      get :index
+    end
+
+    it "should redirect_to root_url" do 
+      send_request
+      response.should redirect_to root_url
+    end
+
+    it "should throw exception message" do 
+      send_request
+      flash[:alert].should eq("You are not authorized to access this page.")
+    end
+  end
+
+  describe "rescue_from ActionController::RedirectBackError " do 
+    def send_request
+      get :show, id: 1
+    end
+
+    it "should redirect_to root_url" do 
+      send_request
+      response.should redirect_to root_url
     end
   end
 

@@ -2,10 +2,13 @@ class CategoriesController < ApplicationController
   before_action :find_category, only: [:update, :destroy]
   before_action :find_parent_and_initialize, only: :create
   authorize_resource
+  respond_to :html, :json, only: :index
+
   
   def index
-    @categories = Category.all.arrange
     @category = Category.new
+    @roots = Category.roots.collect{|root| root.to_node } if request.xhr?
+    respond_with(@roots)
   end
 
   def create
