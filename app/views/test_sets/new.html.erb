@@ -1,0 +1,25 @@
+<%= form_for @test_set, :html => { id: "testSetForm" } do |f| %>
+  <%= render :partial => "shared/errors", :locals => { :obj => @test_set } %>  
+  <b><%= label_tag :question_type, nil %></b><br />
+  <% show_question_type.each do |qt| %>
+    <%= label_tag qt[0] %>
+    <%= text_field_tag "query[#{qt[1]}][number_of_questions]", nil, :placeholder => "Number of questions" %><br />
+    <% show_question_level.each do |ql| %>
+      <%= label_tag ql[0] %>
+      <%= text_field_tag "query[#{qt[1]}][levels][#{ql[1]}][number_of_questions]", nil, :placeholder => "Number of questions" %>
+      <%= autocomplete_field_tag "query[#{qt[1]}][levels][#{ql[1]}][tag]", '', autocomplete_tag_name_questions_path, :placeholder => "Tag" %>
+    <% end %>
+    <%= check_box_tag "query[#{qt[1]}][random]", true %>
+    <%= label_tag 'random' %>
+    <br /><br />
+  <% end %><br />
+  <%= f.label :instruction %>
+  <%= f.text_area :instruction %><br />
+  <%= f.label :test_name %>
+  <%= f.text_area :name %><br />
+  <%= label_tag "Number Of Sets" %>
+  <%= number_field_tag "num_of_sets", nil, :min => 1, :placeholder => "Number of sets" %><br />
+    
+  <br />
+  <%= f.submit %>
+<% end %>

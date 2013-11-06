@@ -10,6 +10,7 @@ Questionnaire::Application.routes.draw do
   resources :question_types
   resources :question_levels
   resources :categories
+  
   resources :questions do
     collection do 
       get :autocomplete_tag_name
@@ -18,6 +19,13 @@ Questionnaire::Application.routes.draw do
       delete :remove_tag
     end
   end
+
+  resources :test_sets, except: [:edit, :update, :destroy] do 
+    member do 
+      get :download_sets
+    end
+  end
+
   get "/get_options", to: "questions#get_options"
   root :to => "home#index"  
 end

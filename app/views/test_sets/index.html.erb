@@ -1,0 +1,20 @@
+<h2>All TestSets</h2>
+<%= link_to 'Create Test Set', new_test_set_path %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>  
+      <th>Number</th>
+      <th>Instruction</th>  
+    </tr>
+  </thead>
+  <tbody>
+    <% @test_sets.each do|test_set| %>
+      <tr>
+        <td><%= link_to test_set.name, test_set_path(test_set) %></td>
+        <td><%= test_set.number %></td>
+        <td><%= test_set.instruction %></td>
+      </tr>  
+    <% end %>
+  </tbody>
+</table>    

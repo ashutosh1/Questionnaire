@@ -1,0 +1,14 @@
+<h2><%= @test_set.name %></h2>
+<div id="downloadSets">
+  <%= form_tag download_sets_test_set_path, method: :get do %>
+    <%= label_tag :number_of_sets %>
+    <%= text_field_tag 'num_of_sets', nil %>
+  
+    <%= submit_tag "Download", data: { disable_with: "Please wait..." } %>
+<% end %>
+</div><br /><br />
+
+
+<b>Name:</b> <%= @test_set.name %><br />
+<b>Number:</b> <%= @test_set.number %><br />
+<b>Instruction:</b> <%= @test_set.instruction %><br />
