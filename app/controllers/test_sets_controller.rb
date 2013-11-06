@@ -1,5 +1,5 @@
 class TestSetsController < ApplicationController
-  load_resource only: [:show, :download_sets]
+  before_action :find_test_set, only: [:show, :download_sets]
   before_action :assign_variables, only: :create
   before_action :filter_and_get_num_of_questions, only: :create
   authorize_resource
@@ -53,6 +53,11 @@ class TestSetsController < ApplicationController
       TestSet.generate_different_sets(@num_of_sets, @test_set)
       send_data(File.new(Rails.root.join("public/reports/#{@test_set.file_name}.zip")).read, :type=>"application/zip" , :filename => "#{@test_set.file_name}.zip")
       File.delete(Rails.root.to_s + "/public/reports/#{@test_set.file_name}.zip")
+    end
+
+    def find_test_set
+      @test_set = TestSet.where(id: params[:id]).includes(questions: :question_type).first
+      redirect_to :back, :alert => "No test set found for specified id" unless @test_set
     end
 
 end

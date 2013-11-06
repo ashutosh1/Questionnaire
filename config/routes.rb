@@ -22,6 +22,8 @@ Questionnaire::Application.routes.draw do
     end
     member do 
       delete :remove_tag
+      put :publish
+      put :unpublish
     end
   end
 

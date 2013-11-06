@@ -1,14 +1,44 @@
-<h2><%= @test_set.name %></h2>
+<h2><%= @test_set.name %>(<%= @test_set.number %>)</h2>
 <div id="downloadSets">
-  <%= form_tag download_sets_test_set_path, method: :get do %>
-    <%= label_tag :number_of_sets %>
-    <%= text_field_tag 'num_of_sets', nil %>
-  
-    <%= submit_tag "Download", data: { disable_with: "Please wait..." } %>
-<% end %>
-</div><br /><br />
-
-
-<b>Name:</b> <%= @test_set.name %><br />
-<b>Number:</b> <%= @test_set.number %><br />
-<b>Instruction:</b> <%= @test_set.instruction %><br />
+  <%= render "download_sets" %>
+</div>
+<div class="item_left_column">
+  <table class="fk-specs-type2">
+    <tbody>
+      <tr><th class="group-head" colspan="2">DETAILS</th></tr>
+      <tr>
+        <td class="specs-key">Name</td>
+        <td class="specs-value"><%= @test_set.name %></td>
+      </tr>
+      <tr>
+        <td class="specs-key">Number</td>
+        <td class="specs-value"><%= @test_set.number %></td>
+      </tr>
+      <tr>
+        <td class="specs-key">Instruction</td>
+        <td class="specs-value"><%= @test_set.instruction %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="item_right_column">
+  <% if @test_set.questions.present? %>
+    <table class="fk-specs-type2">
+      <tbody>
+        <tr>
+          <th class="group-head">QUESTIONS</th>
+          <th class="group-head">QUESTION TYPE</th>
+        </tr>
+        <% @test_set.questions.each do |question| %>
+          <tr>
+            <td class="specs-key"><%= link_to question.question, question_path(question) %></td>
+            <td class="specs-value"><%= question.question_type.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <br />
+    <span class=""><strong>There are no questions</strong></span>
+  <% end %>
+</div>

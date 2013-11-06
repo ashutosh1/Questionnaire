@@ -34,15 +34,19 @@
 
 <div class="item_right_column">
   <% if @question.options.present? %>
-    <% if @question.options.size == 1 %>
-      <%= @question.options.first %>
+    <% if @question.options.size == 1 && @question.options.first.answer.blank? %>
+      Answer: <%= @question.options.first.option %>
     <% else %>
       <table class="fk-specs-type2">
         <tbody>
-          <tr><th class="group-head" colspan="2">OPTIONS</th></tr>
+          <tr>
+            <th class="group-head">OPTIONS</th>
+            <th class="group-head">ANSWER</th>
+          </tr>
           <% @question.options.each do |option| %>
             <tr>
               <td class="specs-key"><%= option.option %></td>
+              <td class="specs-value"><%= option.answer? ? true : false %></td>
             </tr>
           <% end %>
         </tbody>

@@ -1,6 +1,6 @@
-<h2>All TestSets</h2>
-<%= link_to 'Create Test Set', new_test_set_path %>
-<table>
+<h2>TestSets</h2>
+<div><%= link_to 'Create Test Set', new_test_set_path, :class => "btn btn-primary" %></div><br />
+<table class="table table-striped table-bordered">
   <thead>
     <tr>
       <th>Name</th>  
@@ -13,7 +13,7 @@
       <tr>
         <td><%= link_to test_set.name, test_set_path(test_set) %></td>
         <td><%= test_set.number %></td>
-        <td><%= test_set.instruction %></td>
+        <td width="40%"><%= test_set.instruction %></td>
       </tr>  
     <% end %>
   </tbody>

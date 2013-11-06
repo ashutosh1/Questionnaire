@@ -13,6 +13,7 @@ class Question < ActiveRecord::Base
   belongs_to :question_level
 
   validates :question, :question_type, :question_level, :user, presence: true
+  validate :validate_categories
 
   scope :published, -> { where.not(published_at: nil) }
   scope :unpublished, -> { where(published_at: nil) }
@@ -34,5 +35,9 @@ class Question < ActiveRecord::Base
 
   def destroyable_by_user?(current_user)
     user == current_user || current_user.has_role?(User::ROLES.first.to_sym)
+  end
+
+  def validate_categories
+    errors.add(:base, "Please select at least one category.") if categories_questions.blank?
   end
 end

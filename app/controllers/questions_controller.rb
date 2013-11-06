@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   autocomplete :tag, :name, :class_name => ActsAsTaggableOn::Tag, :full => true
 
   before_action :get_conditions, only: :index
-  before_action :find_question, only: [:show, :update, :destroy, :edit, :remove_tag]
+  before_action :find_question, only: [:show, :update, :destroy, :edit, :remove_tag, :publish, :unpublish]
   authorize_resource
 
   def index
@@ -33,9 +33,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update_attributes(params_question)
+    begin
+     @question.update_attributes(params_question)
       redirect_to questions_path, :notice => "Question has been updated successfully"
-    else
+    rescue Exception => e
+      @question.errors.add(:base, e.message)
       build_categories_questions
       render :edit
     end
@@ -53,6 +55,16 @@ class QuestionsController < ApplicationController
   def remove_tag
     @question.remove_tags(params[:tag_name])
     flash.now[:notice] = "Tag #{params[:tag_name]} has been removed successfully"
+  end
+
+  def publish
+    @question.publish
+    redirect_to questions_path, :notice => "Question successfully published"
+  end
+
+  def unpublish
+    @question.unpublish
+    redirect_to questions_path, :notice => "Question successfully unpublished"
   end
 
   private

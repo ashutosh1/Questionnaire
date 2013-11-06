@@ -21,7 +21,12 @@
           <td><%= question.user.name %></td>
           <td>
             <%= link_to "", edit_question_path(question), :class => "icon-edit" %>&nbsp;
-            <%= link_to "", question_path(question), method: :delete, data: {confirm: "Question will be removed from all associated test sets, Please confirm if you still want to delete it."}, :class => "icon-remove" %>
+            <%= link_to "", question_path(question), method: :delete, data: {confirm: "Question will be removed from all associated test sets, Please confirm if you still want to delete it."}, :class => "icon-remove" %>&nbsp;
+            <% if question.published? %>
+              <%= link_to "Unpublish", unpublish_question_path(question), method: :put, :class => "btn btn-primary" %>
+            <% else %>  
+              <%= link_to "Publish", publish_question_path(question), method: :put,  :class => "btn btn-success" %>
+            <% end %>
           </td>
         </tr>
       <% end %>

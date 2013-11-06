@@ -5,7 +5,10 @@
       <%= menu_item "Deleted Users", users_path("deleted"), :class => class_name("users", "index", "deleted") %>
     <% end %>
     <%= menu_divider %>
-    <%= menu_item 'Test Sets', test_sets_path %>
+    <%= drop_down "Test Sets" do %>
+      <%= menu_item 'Test Sets', test_sets_path, :class => class_name("test_sets", "index") %>
+      <%= menu_item "Create New Set", new_test_set_path, :class => class_name("test_sets", "new") %>
+    <% end %>
     <%= menu_divider %>
     <%= menu_item 'Categories', categories_path %>
     <%= menu_divider %>

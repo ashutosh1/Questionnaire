@@ -1,8 +1,6 @@
 body { }
 a {text-decoration: none;color: rgb(0, 153, 255);}
 a:hover {text-decoration: none;}
-.specs-key{font-weight: bold;padding-right: 20px;}
-.specs-value{font-style: italic;font-size: 15px;}
 #optionsForm {display: inline-block;}
 #add_more_options{padding-left: 27px;float: right;padding-right: 923px;padding-top: 5px;}
 .progress { position: fixed; width: 100%; z-index: 10;  background: grey; left: 0px; top: 0px; height: 100%; opacity: 0.7; filter: alpha(opacity=40);}
@@ -38,3 +36,11 @@ div#optionsForm div.fields{margin-bottom: 5px !important;}
 .fk-specs-type2 .specs-key {background-color: #fff;border: 2px dotted #c9c9c9;border-right: 1px dotted #c9c9c9;border-left: 1px dotted #c9c9c9;padding: 10px;width:20%;color: black;}
 .fk-specs-type2 {margin: 10px 10px 30px 0;}
 .fk-specs-type2 .group-head {background-color: #f9f9f9;border: 1px solid #f9f9f9;text-align: left;}
+.specs-key{font-weight: bold;padding-right: 20px;}
+.specs-value{font-style: italic;font-size: 15px;}
+.item_left_column .specs-key{width:15%;}
+.item_right_column .specs-key{width:65%;}
+
+.test_set_check_box_label { display: inline; padding-left: 6px; }
+.test_set_check_box { padding: 0px !important; margin: -1px !important; }
+.lightLine { border-bottom: 1px solid black; margin: 10px 0 10px; padding-bottom: 5px;}
