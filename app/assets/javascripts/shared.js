@@ -59,3 +59,7 @@ function fillTagContent() {
 function delTag(currentTag) {
   $(currentTag).remove();
 }
+
+$(function() {
+  $("a.highlighted").parent('li').siblings().removeClass('active');
+});

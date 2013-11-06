@@ -1,10 +1,9 @@
+<h2><%=t '.title', :default => "Question Levels" %></h2>
 <div class="questionLevelFormDiv">
   <%= render :partial => "form" %>
 </div >
-<div class="page-header">
-  <h2>Question Levels</h2>
-</div>
-<table>
+
+<table class="table table-striped table-bordered">
   <thead>
     <tr>
       <th>Name</th>
@@ -18,7 +17,7 @@
         <td><%= link_to question_level.name, question_level_path(question_level), :remote => true %></td>
         <td><%= question_level.questions.size %></td>
         <td>
-          <%= link_to "Destroy", question_level_path(question_level), method: :delete, data: {confirm: "are you sure"} %>
+          <%= link_to "", question_level_path(question_level), method: :delete, data: {confirm: "Please confirm you want to delete #{question_level.name} ?"}, :class => "icon-remove" %>
         </td>
       </tr>
     <% end %>

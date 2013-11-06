@@ -1,8 +1,7 @@
-<p><%= f.link_to_add "Add options", :options, :data => { :target => "#optionsForm" } %></p>
 <div id="optionsForm">
   <%= f.fields_for :options, @options do |c| %>
     <%= c.check_box :answer %>
     <%= c.text_field :option %>
-    <%= c.link_to_remove "Remove" %>
+    <%= c.link_to_remove "", :class => "icon-remove" %>
   <% end %>
 </div>

@@ -11,7 +11,30 @@ a:hover {text-decoration: none;}
 #addTagButton:hover{ cursor: pointer;color:black; text-decoration: none;}
 .DelTag { background:#cccccc; margin:3px; cursor:pointer; padding-left:7px;padding-right:5px;  }
 #my_tree{padding-left: 200px;padding-top: 2px;padding-bottom: 2px; border: 2px solid grey;border-radius: 5px;width:70%;}
-.highlighted, .highlighted:hover { color:#555555 !important;background-color:black !important; text-shadow: none !important;}
-.flashMessageDiv{float: left;width:70%;display: inline-block;padding-right: 55px;margin: 15px;}
-.category { background: grey;}
-#my_tree{ background: #F1F1F1}
+.highlighted, .highlighted:hover { color:white !important;background-color:#0081c2 !important; text-shadow: none !important;}
+.flashMessageDiv{width:90%;display: inline-block;padding-right: 5px;margin-left: 15px;}
+#my_tree{ background: #F1F1F1;padding-bottom: 10px;margin-bottom: 15px;width:82%;}
+.icon-remove { color: red; }
+.page-header{border: none !important;}
+div.span9{width: 90%;}
+.requiredField{ float: left;line-height: 30px;color: red;overflow: hidden;}
+#userRolesLabel {padding-top: 0px;}
+.userRolesvalue { display: inline; padding-left: 6px; }
+.userRolesCheckBox { padding: 0px !important; margin: -1px !important; }
+
+span#printBarcodeInstructions:hover{ text-decoration: none;color: black;cursor: pointer;}
+#error_explanation { background: none repeat scroll 0 0 #F1F1F1; }
+#error_explanation li,h3 { text-align: left;}
+.field_with_errors{ display: inline; }
+.categoryLabel { display: inline; padding-left: 6px; }
+.categoryCheckBox { padding: 0px !important; margin: -1px !important; }
+
+div.category_options div.fields{float: left!important;}
+div#optionsForm div.fields{margin-bottom: 5px !important;}
+.fk-specs-type2 .column-will-remove { background-color: yellow !important;}
+.item_left_column {float: left;border: 0;width:50%;margin: 0;}
+.item_right_column{display: inline;float:right;width:48%;overflow: hidden;}
+.fk-specs-type2 .specs-value {background-color: #fff;border: 2px dotted #c9c9c9;border-right: 1px dotted #c9c9c9;border-left: 1px dotted #c9c9c9;padding: 10px;width:40%;color: #677279;}
+.fk-specs-type2 .specs-key {background-color: #fff;border: 2px dotted #c9c9c9;border-right: 1px dotted #c9c9c9;border-left: 1px dotted #c9c9c9;padding: 10px;width:20%;color: black;}
+.fk-specs-type2 {margin: 10px 10px 30px 0;}
+.fk-specs-type2 .group-head {background-color: #f9f9f9;border: 1px solid #f9f9f9;text-align: left;}

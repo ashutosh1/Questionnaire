@@ -1,18 +1,13 @@
 class QuestionsController < ApplicationController
   include ActsAsTaggableOn
   autocomplete :tag, :name, :class_name => ActsAsTaggableOn::Tag, :full => true
-  
+
+  before_action :get_conditions, only: :index
   before_action :find_question, only: [:show, :update, :destroy, :edit, :remove_tag]
   authorize_resource
 
   def index
-    if params[:question_level_id]
-      @questions = Question.where(question_level_id: params[:question_level_id]).includes(:question_type, :question_level, :user, :categories)
-    elsif params[:question_type_id]
-      @questions = Question.where(question_type_id: params[:question_type_id]).includes(:question_type, :question_level, :user, :categories)
-    else
-      @questions = Question.includes(:question_type, :question_level, :user, :categories)
-    end
+    @questions = @questions.includes(:question_type, :question_level, :user, :categories)
   end
 
   def new
@@ -63,7 +58,7 @@ class QuestionsController < ApplicationController
   private
 
     def find_question
-      @question = Question.where(id: params[:id]).includes(:question_type, :question_level, :user, :categories).first
+      @question = Question.where(id: params[:id]).includes(:question_type, :question_level, :user, :categories, :tags, :options).first
       redirect_to :back, :alert => "No question type found for specified id" unless @question
     end
 
@@ -74,6 +69,15 @@ class QuestionsController < ApplicationController
     def build_categories_questions
       if (@categories_questions = @question.categories_questions + Category.where(["id NOT IN (?)", @question.categories_questions.collect(&:category_id)]).collect { |question| question.categories_questions.build }).blank?
         @categories_questions = Category.all.collect{|question| question.categories_questions.build }
+      end
+    end
+
+    def get_conditions
+      @questions = Question.all
+      if params[:question_level_id]
+        @questions = @questions.where(question_level_id: params[:question_level_id])
+      elsif params[:question_type_id]
+        @questions = @questions.where(question_type_id: params[:question_type_id])
       end
     end
 

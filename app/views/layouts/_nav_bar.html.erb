@@ -1,6 +1,9 @@
 <%= nav_bar :fixed => :top, :brand => "Questionnaire", :responsive => true do %>
   <%= menu_group do %>
-    <%= menu_item "Users", users_path %>
+    <%= drop_down "Users" do %>
+      <%= menu_item "Users", users_path, :class => class_name("users", "index") %>
+      <%= menu_item "Deleted Users", users_path("deleted"), :class => class_name("users", "index", "deleted") %>
+    <% end %>
     <%= menu_divider %>
     <%= menu_item 'Test Sets', test_sets_path %>
     <%= menu_divider %>

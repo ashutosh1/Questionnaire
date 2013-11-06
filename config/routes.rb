@@ -9,7 +9,7 @@ Questionnaire::Application.routes.draw do
   resources :users, except: [:edit, :new, :index]
 
   concern :nested_questions do
-    resources :questions, except: [:new, :create]
+    resources :questions, only: :index
   end
 
   resources :question_types, concerns: :nested_questions
