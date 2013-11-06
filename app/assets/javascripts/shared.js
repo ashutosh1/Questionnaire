@@ -11,7 +11,7 @@ function getAndShowTreeData(){
       $('#my_tree').tree({
         data: items,
         dragAndDrop: true,
-        autoOpen: true
+        autoOpen: true,
       });
     }
   );

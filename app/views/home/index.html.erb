@@ -1,6 +1,0 @@
-<% if user_signed_in? %>
-  <h2>Welcome To Vinsol Questionnaire</h2>
-  <%= link_to 'Sign Out', destroy_user_session_path %>
-<% else %>
-  <%= link_to "Sign in with vinsol account", user_omniauth_authorize_path(:google_oauth2) %>
-<% end %>

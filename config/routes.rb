@@ -7,9 +7,14 @@ Questionnaire::Application.routes.draw do
   get "/users/(:type)", to: "users#index", type: /deleted/, as: "users"
 
   resources :users, except: [:edit, :new, :index]
-  resources :question_types
-  resources :question_levels
-  resources :categories
+
+  concern :nested_questions do
+    resources :questions, except: [:new, :create]
+  end
+
+  resources :question_types, concerns: :nested_questions
+  resources :question_levels, concerns: :nested_questions
+  resources :categories, concerns: :nested_questions
   
   resources :questions do
     collection do 

@@ -6,7 +6,13 @@ class QuestionsController < ApplicationController
   authorize_resource
 
   def index
-    @questions = Question.includes(:question_type, :question_level, :user, :categories)
+    if params[:question_level_id]
+      @questions = Question.where(question_level_id: params[:question_level_id]).includes(:question_type, :question_level, :user, :categories)
+    elsif params[:question_type_id]
+      @questions = Question.where(question_type_id: params[:question_type_id]).includes(:question_type, :question_level, :user, :categories)
+    else
+      @questions = Question.includes(:question_type, :question_level, :user, :categories)
+    end
   end
 
   def new

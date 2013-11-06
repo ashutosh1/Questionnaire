@@ -1,0 +1,31 @@
+<%= nav_bar :fixed => :top, :brand => "Questionnaire", :responsive => true do %>
+  <%= menu_group do %>
+    <%= menu_item "Users", users_path %>
+    <%= menu_divider %>
+    <%= menu_item 'Test Sets', test_sets_path %>
+    <%= menu_divider %>
+    <%= menu_item 'Categories', categories_path %>
+    <%= menu_divider %>
+    <%= menu_item 'Question Types', question_types_path %>
+    <%= menu_divider %>
+    <%= menu_item 'Question Levels', question_levels_path %>
+    <%= menu_divider %>
+    <%= menu_item 'Add Question', new_question_path %>
+    <%= menu_divider %>
+    <%= drop_down "Questions" do %>
+      <%= menu_item "All Questions", questions_path %>
+      <strong>By Question Type</strong>
+      <% QuestionType.all.each do |qt| %>
+        <%= menu_item qt.name, question_type_questions_path(qt) %>
+      <% end %>
+      <strong>By Question Level</strong>
+      <% QuestionLevel.all.each do |ql| %>
+        <%= menu_item ql.name, question_level_questions_path(ql) %>
+      <% end %>
+    <% end %>
+    <%= menu_divider %>
+  <% end %>  
+  <%= menu_group :pull => :right do %>
+    <%= menu_item 'Sign Out', destroy_user_session_path %>
+  <% end %>  
+<% end %>
