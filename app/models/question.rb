@@ -7,7 +7,7 @@ class Question < ActiveRecord::Base
   has_many :categories, through: :categories_questions
   # CR_Priyank: Options and anwers association/logic doesn't seems fine, revisit
   has_many :options, dependent: :destroy
-  has_many :answers, -> { where.not(answer: false)  }, class_name: 'Option'
+  has_many :answers, -> { where(answer: true)  }, class_name: 'Option'
   
   belongs_to :user
   belongs_to :question_type

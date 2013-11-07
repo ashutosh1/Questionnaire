@@ -7,13 +7,13 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, :alert => exception.message
   end
 
-  rescue_from ActionController::RedirectBackError do 
-    redirect_to root_url
+  rescue_from ActionController::RedirectBackError do |exception|
+    redirect_to root_url, :alert => exception.message
   end
 
-  # rescue_from ActiveRecord::RecordNotFound do |exception|
-  #   redirect_to root_url, :alert => exception.message
-  # end
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
 
   before_filter :set_current_user
 
