@@ -39,7 +39,7 @@
 
 <div class="item_right_column">
   <% if @question.options.present? %>
-    <% if @question.options.size == 1 && @question.options.first.answer.blank? %>
+    <% if @question.options.size == 1 && @question.options.first.answer? %>
       Answer: <%= @question.options.first.option %>
     <% else %>
       <table class="fk-specs-type2">

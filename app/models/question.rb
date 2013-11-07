@@ -6,7 +6,7 @@ class Question < ActiveRecord::Base
   has_many :categories_questions, dependent: :destroy
   has_many :categories, through: :categories_questions
   has_many :options, dependent: :destroy
-  has_many :answers, -> { where.not(answer: false)  }, class_name: 'Option'
+  has_many :answers, -> { where(answer: true)  }, class_name: 'Option'
   
   belongs_to :user
   belongs_to :question_type
