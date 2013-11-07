@@ -34,5 +34,6 @@ Questionnaire::Application.routes.draw do
   end
 
   get "/get_options", to: "questions#get_options"
-  root :to => "home#index"  
+  root :to => "home#index"
+  get 'show_tag', :to => "home#show_tag", :as => :show_tag
 end

@@ -1,0 +1,15 @@
+<div id="progressContainer"></div>
+<div class="page-header">
+  <h2><%=t '.title', :default => "Tags"  %></h2>
+</div>
+<% if @tags.present? %>
+  <div id="tagsCloud">
+    <% tag_cloud(@tags, %w(css1 css2 css3 css4)) do |tag, css_class| %>
+      <%= link_to tag.name, '#', :class => "#{css_class} tagNameLink", :"data-tagname" => tag.name %>
+    <% end %>
+    <%= hidden_field_tag('url_for_show_tag', show_tag_path) %>
+  </div>  
+<% else %>
+  <br /> <strong>There are no tags created yet  </strong>
+<% end %>
+<div id="searchBox"></div>

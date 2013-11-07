@@ -24,10 +24,15 @@
       <td class="specs-key">categories</td>
       <td class="specs-value"><%= @question.categories.collect(&:name).join(", ") %></td>
     </tr>
-      <tr>
-        <td class="specs-key">Tags</td>
-        <td class="specs-value"><%= @question.tags.present? ? @question.tags.collect(&:name).join(', ') : '' %></td>
-      </tr>
+    <tr>
+      <td class="specs-key">Tags</td>
+      <td class="specs-value"><%= @question.tags.present? ? @question.tags.collect(&:name).join(', ') : '' %></td>
+    </tr>
+    <tr>
+      <td class="specs-key">Added By</td>
+      <td class="specs-value"><%= @question.user.name %></td>
+    </tr>
+
     </tbody>
   </table>
 </div>

@@ -44,3 +44,10 @@ div#optionsForm div.fields{margin-bottom: 5px !important;}
 .test_set_check_box_label { display: inline; padding-left: 6px; }
 .test_set_check_box { padding: 0px !important; margin: -1px !important; }
 .lightLine { border-bottom: 1px solid black; margin: 10px 0 10px; padding-bottom: 5px;}
+.css1 { font-size: 1.0em; }
+.css2 { font-size: 1.2em; }
+.css3 { font-size: 1.4em; }
+.css4 { font-size: 1.6em; }
+#tagsCloud { background: #F1F1F1!important;padding: 10px;margin-left: 5px; }
+div#signInLink {padding-left: 35%;font-size: 2em;font-style: italic;font-weight: bold;}
+div#signInLink a:hover{text-decoration: none;color: black;};

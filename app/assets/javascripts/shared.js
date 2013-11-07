@@ -62,4 +62,17 @@ function delTag(currentTag) {
 
 $(function() {
   $("a.highlighted").parent('li').siblings().removeClass('active');
+  $("a.tagNameLink").on("click", function(event){
+    event.preventDefault();
+    var name = $(this).data('tagname');
+    console.log(name);
+    $.ajax({
+      url: $('#url_for_show_tag').val(), 
+      dataType: 'script',
+      type: 'get', 
+      beforeSend: function() { showProgress() },
+      complete: function() { endProgress() },
+      data: 'tag=' + name
+    });
+  });
 });
