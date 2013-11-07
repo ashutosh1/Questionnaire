@@ -14,6 +14,11 @@ class Question < ActiveRecord::Base
   belongs_to :question_level
 
   validates :question, :question_type, :question_level, :user, presence: true
+  
+  # CR_Priyank: Validation for exactly one answer and multiple options to be present for mcq
+  # CR_Priyank: Validation for atleast one answer and multiple options to be present for mcaq
+  # CR_Priyank: Validation for exactly one answer and exactly one option to be present for subjective question
+
   validate :validate_categories
 
   scope :published, -> { where.not(published_at: nil) }
