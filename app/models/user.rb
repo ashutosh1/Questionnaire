@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:google_oauth2]
   
   validates :email, presence: true, uniqueness: true
+  # CR_Priyank: Only vinsol's email ID can be saved in email
   validates :email, format: { :with => EMAIL_REGEX }, allow_blank: true
   
   has_many :roles_users, dependent: :destroy

@@ -11,6 +11,7 @@
     <div class="controls">
       <%= f.fields_for :roles_users, @roles_users do |c| %>
         <%= c.hidden_field :role_id %>
+        <%# CR_Priyank: take c.object in a variable and then use %>
         <%= c.check_box :_destroy, { :checked => attr_checked?(c), :id => "#{c.object.role.name}_#{c.object.role.id}", :class => "userRolesCheckBox" }, '0', '1'  %>
         <label for="<%= c.object.role.name + "_#{c.object.role.id}" %>" class="userRolesvalue">
           <%= c.object.role.name %>
