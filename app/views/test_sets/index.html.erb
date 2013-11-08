@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>  
-      <th>Number</th>
+      <th>Permalink</th>
       <th>Instruction</th>  
     </tr>
   </thead>
@@ -12,7 +12,7 @@
     <% @test_sets.each do|test_set| %>
       <tr>
         <td><%= link_to test_set.name, test_set_path(test_set) %></td>
-        <td><%= test_set.number %></td>
+        <td><%= test_set.permalink %></td>
         <td width="40%"><%= test_set.instruction %></td>
       </tr>  
     <% end %>

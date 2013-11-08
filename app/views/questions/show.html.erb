@@ -14,11 +14,11 @@
       </tr>
     <tr>
       <td class="specs-key">Level</td>
-      <td class="specs-value"><%= @question.question_level.name %></td>
+      <td class="specs-value"><%= link_to @question.question_level.name, question_level_questions_path(@question.question_level) %></td>
     </tr>
     <tr>
       <td class="specs-key">Type</td>
-      <td class="specs-value"><%= @question.question_type.name %></td>
+      <td class="specs-value"><%= link_to @question.question_type.name, question_type_questions_path(@question.question_type) %></td>
     </tr>
     <tr>
       <td class="specs-key">categories</td>

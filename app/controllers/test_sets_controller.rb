@@ -58,7 +58,7 @@ class TestSetsController < ApplicationController
     end
 
     def find_test_set
-      @test_set = TestSet.where(id: params[:id]).includes(questions: :question_type).first
+      @test_set = TestSet.where(permalink: params[:id]).includes(questions: :question_type).first
       redirect_to :back, :alert => "No test set found for specified id" unless @test_set
     end
 

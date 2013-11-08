@@ -1,4 +1,4 @@
-<h2><%= @test_set.name %>(<%= @test_set.number %>)</h2>
+<h2><%= @test_set.name %></h2>
 <div id="downloadSets">
   <%= render "download_sets" %>
 </div>
@@ -11,8 +11,8 @@
         <td class="specs-value"><%= @test_set.name %></td>
       </tr>
       <tr>
-        <td class="specs-key">Number</td>
-        <td class="specs-value"><%= @test_set.number %></td>
+        <td class="specs-key">Permalink</td>
+        <td class="specs-value"><%= @test_set.permalink %></td>
       </tr>
       <tr>
         <td class="specs-key">Instruction</td>

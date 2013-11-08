@@ -3,10 +3,11 @@ class QuestionsController < ApplicationController
   autocomplete :tag, :name, :class_name => ActsAsTaggableOn::Tag, :full => true
 
   before_action :get_conditions, only: :index
-  before_action :find_question, only: [:show, :update, :destroy, :edit, :remove_tag, :publish, :unpublish]
+  load_resource only: [:show, :update, :destroy, :edit, :remove_tag, :publish, :unpublish]
   authorize_resource
 
   def index
+    
     @questions = @questions.includes(:question_type, :question_level, :user, :categories)
   end
 
@@ -34,11 +35,9 @@ class QuestionsController < ApplicationController
 
   def update
     # CR_Priyank: I am not sure why are we rescuing this block ?
-    begin
-     @question.update_attributes(params_question)
+    if @question.update_attributes(params_question)
       redirect_to questions_path, :notice => "Question has been updated successfully"
-    rescue Exception => e
-      @question.errors.add(:base, e.message)
+    else
       build_categories_questions
       render :edit
     end
@@ -64,17 +63,15 @@ class QuestionsController < ApplicationController
   end
 
   def unpublish
-    @question.unpublish
-    redirect_to questions_path, :notice => "Question successfully unpublished"
+    if @question.unpublish
+      flash[:notice] = "Question successfully unpublished"
+    else
+      flash[:alert] = "Question is associated with test sets (#{@question.test_sets.collect(&:name).join(', ')}), so it can not be unpublished."
+    end
+    redirect_to questions_path
   end
 
   private
-
-    def find_question
-      # CR_Priyank: I think its unnecessary to include all associations here
-      @question = Question.where(id: params[:id]).includes(:question_type, :question_level, :user, :categories, :tags, :options).first
-      redirect_to :back, :alert => "No question type found for specified id" unless @question
-    end
 
     def params_question
       params.require(:question).permit(:question, :question_level_id, :question_type_id, :user_id, :tags_field, :categories_questions_attributes => [:category_id, :id, :_destroy], :options_attributes => [:option, :answer, :id, :_destroy])
@@ -82,9 +79,7 @@ class QuestionsController < ApplicationController
 
     def build_categories_questions
       # CR_Priyank: I think {|question|} should be category, also try to move this code in model
-      if (@categories_questions = @question.categories_questions + Category.where(["id NOT IN (?)", @question.categories_questions.collect(&:category_id)]).collect { |question| question.categories_questions.build }).blank?
-        @categories_questions = Category.all.collect{|question| question.categories_questions.build }
-      end
+      @categories_questions = @question.build_categories_questions
     end
 
     def get_conditions

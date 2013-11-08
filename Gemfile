@@ -36,6 +36,7 @@ gem 'debugger', group: [:development, :test]
 group :development do 
   gem 'capistrano'
   gem "rails-erd"
+  gem 'quiet_assets'
 end
 
 group :test do 

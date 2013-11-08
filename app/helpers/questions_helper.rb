@@ -16,6 +16,13 @@ module QuestionsHelper
       end  
     end
   end
-
+  
+  def show_warning_if_test_sets(question)
+    if question.test_sets.present?
+      "Question will be removed from all associated test sets(#{question.test_sets.collect(&:name).join(', ')}), Please confirm if you still want to delete it."
+    else
+      "Are you sure, you want to delete it?"
+    end
+  end
 
 end

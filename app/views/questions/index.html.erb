@@ -15,13 +15,13 @@
       <% @questions.each do |question| %>
         <tr>
           <td width="35%"><%= link_to question.question, question_path(question) %></td>
-          <td><%= question.question_level.name %></td>
-          <td><%= question.question_type.name %></td>
+          <td><%= link_to question.question_level.name, question_level_questions_path(question.question_level)  %></td>
+          <td><%= link_to question.question_type.name, question_type_questions_path(question.question_type) %></td>
           <td width="20%"><%= question.categories.collect(&:name).join(', ') %></td>
           <td><%= question.user.name %></td>
           <td>
             <%= link_to "", edit_question_path(question), :class => "icon-edit" %>&nbsp;
-            <%= link_to "", question_path(question), method: :delete, data: {confirm: "Question will be removed from all associated test sets, Please confirm if you still want to delete it."}, :class => "icon-remove" %>&nbsp;
+            <%= link_to "", question_path(question), method: :delete, data: {confirm: show_warning_if_test_sets(question)}, :class => "icon-remove" %>&nbsp;
             <% if question.published? %>
               <%= link_to "Unpublish", unpublish_question_path(question), method: :put, :class => "btn btn-primary" %>
             <% else %>  

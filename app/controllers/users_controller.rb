@@ -18,6 +18,7 @@ class UsersController < ApplicationController
       redirect_to users_path, :notice => "User created with email #{@user.email}"
     else
       find_users_and_build_roles
+      render :index
     end
   end
 
@@ -41,6 +42,7 @@ class UsersController < ApplicationController
       redirect_to users_path, :notice => "User with email #{@user.email} has been updated successfully"
     else
       find_users_and_build_roles
+      render :index
     end
   end
 
@@ -55,15 +57,12 @@ class UsersController < ApplicationController
 
     def build_roles_users
       # CR_Priyank: This can be moved to model
-      if (@roles_users = @user.roles_users + Role.where(["id NOT IN (?)", @user.roles_users.collect(&:role_id)]).collect { |role| role.roles_users.build }).blank?
-        @roles_users = Role.all.collect{|role| role.roles_users.build }
-      end
+      @roles_users = @user.build_roles_users
     end
 
     def find_users_and_build_roles
       find_users
       build_roles_users
       # CR_Priyank: Its confusing to use render in filter instead we can move this to action
-      render :index
     end
 end

@@ -23,4 +23,11 @@ class User < ActiveRecord::Base
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
 
+  def build_roles_users
+    if (rol_users = roles_users + Role.where(["id NOT IN (?)", roles_users.collect(&:role_id)]).collect { |role| role.roles_users.build }).blank?
+      rol_users = Role.all.collect{|role| role.roles_users.build }
+    end
+    rol_users
+  end
+
 end

@@ -2,8 +2,8 @@ require 'zip'
 class TestSet < ActiveRecord::Base
   include Audit
   # CR_Priyank: We do not need to call concern with scope name
-  include TestSet::RestrictiveDestroy
-  include TestSet::GetRandomQuestions
+  include RestrictiveDestroy
+  include GetRandomQuestions
   include GenerateSets
 
   has_and_belongs_to_many :questions
@@ -13,6 +13,10 @@ class TestSet < ActiveRecord::Base
 
   def file_name
     name.strip.gsub(" ", "_")
+  end
+
+  def destroyable?
+    return false
   end
 
 end
