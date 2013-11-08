@@ -2,6 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    # CR_Priyank: alias_action can be out of initialize
     alias_action :create, :read, :update, :destroy, :to => :crud
     user ||= User.new    
     

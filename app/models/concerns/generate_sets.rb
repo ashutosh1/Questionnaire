@@ -2,11 +2,15 @@ module GenerateSets
   extend ActiveSupport::Concern
 
   module ClassMethods
+    # CR_Priyank: I am not sure why all these are class methods
     def generate_different_sets(num_of_sets, test_set)
+      # CR_Priyank: Come up with a solution to clear this directory periodically
       system("mkdir public/reports/#{test_set.file_name}")
       questions = test_set.questions.includes(:options)
       num_of_sets.times do|i|
+        # CR_Priyank: I am not sure why are shuffling questions here, instead we can shuffle them at time of looping
         questions = questions.shuffle
+        # CR_Priyank: Generate doc instead of pdf
         filename = "public/reports/#{test_set.file_name}/#{test_set.file_name}_#{i+1}.pdf"
         Prawn::Document.generate(filename, :page_layout => :portrait, :page_size => 'LETTER', :skip_page_creation => false, :top_margin => 50, :left_margin => 50) do |pdf|
           pdf_questions_for_current_set(pdf, test_set, i, questions)

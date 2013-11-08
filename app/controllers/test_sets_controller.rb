@@ -5,6 +5,7 @@ class TestSetsController < ApplicationController
   authorize_resource
 
  def index
+  # CR_Priyank: Use pagination
   @test_sets = TestSet.all.order("created_at desc")
  end
 
@@ -49,6 +50,7 @@ class TestSetsController < ApplicationController
       @questions = TestSet.get_questions(@question_type_ids, @query)
     end
 
+    # CR_Priyank: This can be moved to concern
     def generate_and_send_sets
       TestSet.generate_different_sets(@num_of_sets, @test_set)
       send_data(File.new(Rails.root.join("public/reports/#{@test_set.file_name}.zip")).read, :type=>"application/zip" , :filename => "#{@test_set.file_name}.zip")

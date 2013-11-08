@@ -1,6 +1,7 @@
 require 'zip'
 class TestSet < ActiveRecord::Base
   include Audit
+  # CR_Priyank: We do not need to call concern with scope name
   include TestSet::RestrictiveDestroy
   include TestSet::GetRandomQuestions
   include GenerateSets

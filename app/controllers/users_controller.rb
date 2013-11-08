@@ -54,6 +54,7 @@ class UsersController < ApplicationController
     end
 
     def build_roles_users
+      # CR_Priyank: This can be moved to model
       if (@roles_users = @user.roles_users + Role.where(["id NOT IN (?)", @user.roles_users.collect(&:role_id)]).collect { |role| role.roles_users.build }).blank?
         @roles_users = Role.all.collect{|role| role.roles_users.build }
       end
@@ -62,6 +63,7 @@ class UsersController < ApplicationController
     def find_users_and_build_roles
       find_users
       build_roles_users
+      # CR_Priyank: Its confusing to use render in filter instead we can move this to action
       render :index
     end
 end
