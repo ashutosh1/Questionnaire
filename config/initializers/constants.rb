@@ -1,1 +1,1 @@
-EMAIL_REGEX = /\A^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+EMAIL_REGEX = /\A[a-z0-9]+(([\.\_]{1}|[a-z0-9])+[a-z0-9])@vinsol.com\z/i

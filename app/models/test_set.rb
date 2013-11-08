@@ -8,15 +8,10 @@ class TestSet < ActiveRecord::Base
   has_and_belongs_to_many :questions
   validates :name, :instruction, presence: true
   
-  after_save :create_number, :unless => :number?
+  has_permalink :name, :unique => true
 
   def file_name
     name.strip.gsub(" ", "_")
   end
-
-  private
-    def create_number
-      update_column(:number, id.to_s.rjust(6,'0'))
-    end
 
 end

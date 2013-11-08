@@ -81,6 +81,7 @@ GEM
     execjs (2.0.2)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
+    has_permalink (0.1.6)
     hashery (2.1.1)
     hashie (2.0.5)
     hike (1.2.3)
@@ -260,6 +261,7 @@ DEPENDENCIES
   debugger
   delayed_job_active_record
   devise (= 3.0.0.rc)
+  has_permalink
   jbuilder (~> 1.2)
   jquery-rails
   jquery-ui-rails

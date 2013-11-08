@@ -20,10 +20,10 @@ class CategoriesController < ApplicationController
   end
 
   def update
-    if @category.update_attributes(params_category)
-      redirect_to categories_path, :notice => "#{@category.name} has been updated successfully"
+    if @category.update_values(params)
+      flash.now[:notice] = "#{@category.name} has been updated successfully"
     else
-      redirect_to categories_path, :alert => "#{@category.name} could not be updated"
+      flash.now[:alert] = "#{@category.name} could not be updated"
     end
   end
 

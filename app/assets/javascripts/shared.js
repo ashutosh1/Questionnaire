@@ -11,11 +11,25 @@ function getAndShowTreeData(){
       $('#my_tree').tree({
         data: items,
         dragAndDrop: true,
-        autoOpen: true,
+        autoOpen: 0,
       });
     }
   );
 }
+
+$(function() {
+  $('#my_tree').on('tree.move', function(e) {
+    var moved_node_id = e.move_info.moved_node.id
+    var target_node_id = e.move_info.target_node.id
+    $.ajax({
+      url: "/categories/" + moved_node_id, 
+      dataType: 'script',
+      type: 'PUT', 
+      data: 'target_node=' + target_node_id
+    });
+
+  });
+});
 
 function showProgress() {
   $("#progressContainer").html("<div class='progress'></div><div class='loadingText'>Loading...</div>")
@@ -75,4 +89,8 @@ $(function() {
       data: 'tag=' + name
     });
   });
+
+  // $("#userEmailTextField").on("keyup", function(){
+  //   var valu = $(this).val();
+  // });
 });
