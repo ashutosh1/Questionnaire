@@ -3,13 +3,12 @@
   <div class="control-group">
     <%= f.label :email, :class => 'control-label' %><span class="requiredField"><%= mark_required(@user, 'email') %></span>
     <div class="controls">
-      <div class="input-append">
+      <div class="input-prepend">
         <span class="add-on"><i class="icon-envelope"></i></span>
-        <%= f.text_field :email, :readonly => f.object.persisted?, :class => 'text_field', :id => "userEmailTextField", required: true %>
-        <% if @user.new_record? %>
-          <span class="add-on">@vinsol.com</span>
-        <% end %>  
+        <%= f.text_field :email, :readonly => f.object.persisted?, :class => 'text_field', :id => "userEmailTextField", required: true, :autocomplete => 'off' %>
       </div>
+      <span id="userEmailHintSpan"><a href="#" data-toggle="tooltip" data-placement="right" title="" data-original-title="Please enter example.test if you have vinsol account as example.test@vinsol.com", id="userEmailHintLink">?</a></span>
+      <span id="emailError"></span>
     </div>
   </div>
 

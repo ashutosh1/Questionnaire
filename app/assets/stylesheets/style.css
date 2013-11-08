@@ -49,4 +49,6 @@ div#optionsForm div.fields{margin-bottom: 5px !important;}
 .css4 { font-size: 1.6em; }
 #tagsCloud { background: #F1F1F1!important;padding: 10px;margin-left: 5px; }
 div#signInLink {padding-left: 35%;font-size: 2em;font-style: italic;font-weight: bold;}
-div#signInLink a:hover{text-decoration: none;color: black;};
+div#signInLink a:hover{text-decoration: none;color: black;}
+a#userEmailHintLink{ 	font-size: 1.5em;}
+span#emailError{display: block;font-style:italic;color: red; }

@@ -29,6 +29,7 @@ $(function() {
     });
 
   });
+
 });
 
 function showProgress() {
@@ -89,8 +90,38 @@ $(function() {
       data: 'tag=' + name
     });
   });
+  
+  //user email validation and adding domain name at end of email if not present
+  $("span#userEmailHintSpan").hover(function(){
+    $("a#userEmailHintLink").tooltip("show");
+  },function(){
+    $("a#userEmailHintLink").tooltip("hide"); 
+  });
 
-  // $("#userEmailTextField").on("keyup", function(){
-  //   var valu = $(this).val();
-  // });
+  $("#userEmailTextField").keyup(function() {
+    var ch = $(this).val();
+    $(this).val( ch.replace(/[^a-zA-Z0-9\.\_]/g, function(str) {
+      $("span#emailError").html('Please use only letters, numbers and underscore or dot');
+      return '';
+    }) );
+  });
+
+  $("#userEmailTextField").on("focusout", function(){
+    $("span#emailError").html('');
+    valu = $(this).val().slice(-11);
+    if (valu == "@vinsol.com"){
+    }else{
+      $(this).val(valu + '@vinsol.com');
+    }
+  });
+
+  $("#userEmailTextField").on("focusin", function(){
+    valu = $(this).val().slice(-11);
+    if (valu == "@vinsol.com"){
+      $(this).val($(this).val().replace('@vinsol.com',''));
+    }else{
+      
+    }
+  });
+  
 });
