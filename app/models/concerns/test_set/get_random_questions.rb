@@ -1,5 +1,4 @@
-=begin
-class TestSet
+# class TestSet
   module GetRandomQuestions
     extend ActiveSupport::Concern
     
@@ -32,4 +31,4 @@ class TestSet
       end
     end
   end
-end=end
+# end
