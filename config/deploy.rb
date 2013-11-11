@@ -57,5 +57,3 @@ namespace :deploy do
   after "deploy:restart", "deploy:delayed_job:restart"
   
 end
-
-require './config/boot'

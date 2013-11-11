@@ -1,5 +1,5 @@
-require 'zip'
 class TestSet < ActiveRecord::Base
+  require 'zip'
   include Audit
   # CR_Priyank: We do not need to call concern with scope name
   include RestrictiveDestroy
