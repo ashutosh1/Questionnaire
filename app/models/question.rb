@@ -22,7 +22,6 @@ class Question < ActiveRecord::Base
   scope :published, -> { where.not(published_at: nil) }
   scope :unpublished, -> { where(published_at: nil) }
   
-  accepts_nested_attributes_for :tags, allow_destroy: true
   accepts_nested_attributes_for :categories_questions, allow_destroy: true
   accepts_nested_attributes_for :options, allow_destroy: true, reject_if: proc { |attributes| attributes['option'].blank? }
   
