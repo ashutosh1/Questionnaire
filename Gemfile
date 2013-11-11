@@ -35,7 +35,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'debugger', group: [:development, :test]
 
 group :development do 
-  gem 'capistrano'
+  gem 'capistrano', '~> 2.15.5'
   gem "rails-erd"
   gem 'quiet_assets'
 end
