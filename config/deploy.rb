@@ -26,10 +26,9 @@ namespace :deploy do
   end
    
   before "deploy:assets:precompile" do
-    run "ln -s #{shared_path}/config/database.yml #{releases_path}/config/database.yml"
-    p " asdbcfka"
+    run "ln -s #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
-    
+   
   namespace :delayed_job do 
     desc "Restart the delayed_job process"
     task :restart, :roles => :app do

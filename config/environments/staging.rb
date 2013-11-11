@@ -75,7 +75,7 @@ Questionnaire::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { :host => 'questionnaire.vinsol.com', :only_path => false }
+  config.action_mailer.default_url_options = { :host => 'questionnaire.domain4now.com', :only_path => false }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
@@ -85,7 +85,7 @@ Questionnaire::Application.configure do
     :user_name => "ashutosh.tiwari@vinsol.com",
     :password => "33ziiA1GpFd4zxzsCm-Ffg",
     :authentication => 'login',
-    :domain => 'questionnaire.vinsol.com'
+    :domain => 'questionnaire.domain4now.com'
   }
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
