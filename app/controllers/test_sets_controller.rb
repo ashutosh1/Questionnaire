@@ -1,30 +1,31 @@
 class TestSetsController < ApplicationController
+  include GenerateAndSendSets
+
   before_action :find_test_set, only: [:show, :download_sets]
-  before_action :assign_variables, only: :create
-  before_action :filter_and_get_num_of_questions, only: :create
+  before_action :assign_variables, only: :search_questions
+  before_action :filter_and_get_num_of_questions, only: :search_questions
+  before_action :find_questions, only: :create
   authorize_resource
 
  def index
-  # CR_Priyank: Use pagination
-  @test_sets = TestSet.all.order("created_at desc")
+  @test_sets = TestSet.all.order("created_at desc").paginate(page: params[:page], per_page: 100)
  end
 
   def new
-    @test_set = TestSet.new
+    # @test_set = TestSet.new
   end
 
   def create
     @test_set = TestSet.new params_test_set
-    if @questions.present?
-      @test_set.questions << @questions
-      if @test_set.save
-        generate_and_send_sets
+    @test_set.questions << @questions
+    if @test_set.save
+      if params[:num_of_sets].present?
+        generate_and_send_sets(params[:num_of_sets].to_i)
       else
-        render :new
+        redirect_to test_sets_path, :notice => "Test Set has been created successfully"
       end
     else
-      flash[:alert] = "Questions not found for selected combination. Please try with different questions combinations."
-      render :new
+      render "search_questions"
     end
   end
 
@@ -36,6 +37,10 @@ class TestSetsController < ApplicationController
     generate_and_send_sets
   end
 
+  def search_questions
+    @test_set = TestSet.new
+  end
+
   private
 
     def params_test_set
@@ -43,23 +48,21 @@ class TestSetsController < ApplicationController
     end
     
     def assign_variables
-      @question_type_ids, @query, @num_of_sets = params[:query].keys, params[:query], params[:num_of_sets].to_i
+      @question_types, @query, @categories, @tags = params[:query].keys, params[:query], params[:category], params[:tags]
     end
 
     def filter_and_get_num_of_questions
-      @questions = TestSet.get_questions(@question_type_ids, @query)
-    end
-
-    # CR_Priyank: This can be moved to concern
-    def generate_and_send_sets
-      TestSet.generate_different_sets(@num_of_sets, @test_set)
-      send_data(File.new(Rails.root.join("public/reports/#{@test_set.file_name}.zip")).read, :type=>"application/zip" , :filename => "#{@test_set.file_name}.zip")
-      File.delete(Rails.root.to_s + "/public/reports/#{@test_set.file_name}.zip")
+      @questions, @errors = TestSet.get_questions(@question_types, @query, @categories, @tags)
     end
 
     def find_test_set
-      @test_set = TestSet.where(permalink: params[:id]).includes(questions: :question_type).first
+      @test_set = TestSet.where(permalink: params[:id]).includes(questions: :question_level).first
       redirect_to :back, :alert => "No test set found for specified id" unless @test_set
+    end
+
+    def find_questions
+      @questions = Question.where(id: params[:question_id].split(" "))
+      redirect_to :back, :alert => "There are no questions for this test set" unless @questions
     end
 
 end

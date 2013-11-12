@@ -1,7 +1,9 @@
 class Question < ActiveRecord::Base
   include Taggable
   include Audit
+  include UpdateQuestionsCount
   
+  QUESTION_TYPE = {:Subjective => "Subjective", :Mcq => "Multiple_choice_questions", :Mcqma => "Multiple_choice_multiple_answer_questions"}
   has_and_belongs_to_many :test_sets
   has_many :categories_questions, inverse_of: :question, dependent: :destroy
   has_many :categories, through: :categories_questions
@@ -10,15 +12,10 @@ class Question < ActiveRecord::Base
   has_many :answers, -> { where(answer: true)  }, class_name: 'Option'
   
   belongs_to :user
-  belongs_to :question_type
   belongs_to :question_level
   validates_presence_of :categories_questions, message: "Please select at least one category"
-  validates :question, :question_type, :question_level, :user, presence: true
+  validates :question, :type, :question_level, :user, presence: true
   
-  # CR_Priyank: Validation for exactly one answer and multiple options to be present for mcq
-  # CR_Priyank: Validation for atleast one answer and multiple options to be present for mcaq
-  # CR_Priyank: Validation for exactly one answer and exactly one option to be present for subjective question
-
   scope :published, -> { where.not(published_at: nil) }
   scope :unpublished, -> { where(published_at: nil) }
   
@@ -27,6 +24,8 @@ class Question < ActiveRecord::Base
   
   # CR_Priyank: published? can be an alias method of published_at?
   alias_attribute :published, :published_at
+
+  scope :question_with_type, lambda{|typ| where(type: typ) if typ}
 
   # CR_Priyank: setting published_at can be done without calling callbacks and validations
   def publish

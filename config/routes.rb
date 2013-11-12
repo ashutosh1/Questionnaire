@@ -12,13 +12,15 @@ Questionnaire::Application.routes.draw do
     resources :questions, only: :index
   end
 
-  resources :question_types, concerns: :nested_questions
   resources :question_levels, concerns: :nested_questions
   resources :categories, concerns: :nested_questions
-  
+
+  get "/questions/(:type)", to: "questions#index", type: /Subjective|Mcq|Mcqma/, :as => :questions_list
+
   resources :questions do
     collection do 
       get :autocomplete_tag_name
+      get :autocomplete_category_name
     end
     member do 
       delete :remove_tag
@@ -33,7 +35,11 @@ Questionnaire::Application.routes.draw do
     end
   end
 
-  get "/get_options", to: "questions#get_options"
+  resources :subjectives, :controller => "questions", :type => "Subjective"
+  resources :mcq, :controller => "questions", :type => "Mcq"
+  resources :mcqma, :controller => "questions", :type => "Mcqma"
+
   root :to => "home#index"
   get 'show_tag', :to => "home#show_tag", :as => :show_tag
+  get 'search_questions', :to => "test_sets#search_questions", :as => :search_questions
 end

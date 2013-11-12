@@ -2,7 +2,7 @@ class TestSet < ActiveRecord::Base
   include Audit
   # CR_Priyank: We do not need to call concern with scope name
   include RestrictiveDestroy
-  # include GetRandomQuestions
+  include SearchQuestions
   include GenerateSets
 
   has_and_belongs_to_many :questions

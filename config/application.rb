@@ -21,4 +21,5 @@ module Questionnaire
     # config.i18n.default_locale = :de
   end
   require 'zip'
+  require 'rtf'
 end

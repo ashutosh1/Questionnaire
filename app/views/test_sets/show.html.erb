@@ -32,7 +32,7 @@
         <% @test_set.questions.each do |question| %>
           <tr>
             <td class="specs-key"><%= link_to question.question, question_path(question) %></td>
-            <td class="specs-value"><%= question.question_type.name %></td>
+            <td class="specs-value"><%= question.type %></td>
           </tr>
         <% end %>
       </tbody>

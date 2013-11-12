@@ -12,17 +12,15 @@
     <%= menu_divider %>
     <%= menu_item 'Categories', categories_path %>
     <%= menu_divider %>
-    <%= menu_item 'Question Types', question_types_path %>
-    <%= menu_divider %>
     <%= menu_item 'Question Levels', question_levels_path %>
     <%= menu_divider %>
     <%= menu_item 'Add Question', new_question_path %>
     <%= menu_divider %>
     <%= drop_down "Questions" do %>
-      <%= menu_item "All Questions", questions_path %>
+      <%= menu_item "All Questions", questions_list_path %>
       <strong>By Question Type</strong>
-      <% QuestionType.all.each do |qt| %>
-        <%= menu_item qt.name, question_type_questions_path(qt) %>
+      <% Question::QUESTION_TYPE.each do |k, v| %>
+        <%= menu_item k, questions_list_path(k) %>
       <% end %>
       <strong>By Question Level</strong>
       <% QuestionLevel.all.each do |ql| %>

@@ -1,4 +1,4 @@
-<%= nested_form_for @question, :html => { :class => 'form-horizontal' } do |f| %>
+<%= nested_form_for @question.becomes(Question), :html => { :class => 'form-horizontal' } do |f| %>
   <%= render :partial => "shared/errors", :locals => { :obj => @question } %>  
   <div class="control-group">
     <%= f.label :question, :class => 'control-label' %><span class="requiredField"><%= mark_required(@question, 'question') %></span>
@@ -9,7 +9,7 @@
   <div class="control-group">
     <%= f.label :question_type, :class => 'control-label' %><span class="requiredField"><%= mark_required(@question, 'question_type') %></span>
     <div class="controls">
-      <%= f.select :question_type_id, options_for_select(select_question_type, @question.question_type_id), include_blank: true %>
+      <%= f.select :type, options_for_select(select_question_type, @question.type),include_blank: true %>
     </div>
   </div>  
   <div class="control-group">
@@ -22,10 +22,11 @@
     <%= f.label :categories, :class => 'control-label' %>
     <div class="controls category_options">
       <%= f.fields_for :categories_questions, @categories_questions do |c| %>
+        <% category = c.object.category %>
         <%= c.hidden_field :category_id %>
-        <%= c.check_box :_destroy, { :checked => category_checked?(c), :id => "#{c.object.category.name}_#{c.object.category.id}", :class => "categoryCheckBox" }, '0', '1'  %>
-        <label for="<%= c.object.category.name + "_#{c.object.category.id}" %>" class="categoryLabel">
-          <%= c.object.category.name %>
+        <%= c.check_box :_destroy, { :checked => category_checked?(c), :id => "#{category.name}_#{category.id}", :class => "categoryCheckBox" }, '0', '1'  %>
+        <label for="<%= category.name + "_#{category.id}" %>" class="categoryLabel">
+          <%= category.name %>
         </label>&nbsp;
       <% end %>
     </div>
@@ -58,3 +59,10 @@
     <%= f.submit nil, :class => 'btn btn-primary', :onclick => "fillTagContent()" %>
   </div>  
 <% end %>
+<script>
+// $('#question_tags_field').on('railsAutocomplete.select', function(event, data){
+//   /* Do something here */
+//   alert(data.item.id);
+// });
+
+</script>

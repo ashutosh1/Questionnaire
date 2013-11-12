@@ -52,3 +52,4 @@ div#signInLink {padding-left: 35%;font-size: 2em;font-style: italic;font-weight:
 div#signInLink a:hover{text-decoration: none;color: black;}
 a#userEmailHintLink{ 	font-size: 1.5em;}
 span#emailError{display: block;font-style:italic;color: red; }
+.testSetError{background: red;}

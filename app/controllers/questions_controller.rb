@@ -1,14 +1,18 @@
 class QuestionsController < ApplicationController
   include ActsAsTaggableOn
-  autocomplete :tag, :name, :class_name => ActsAsTaggableOn::Tag, :full => true
+  autocomplete :tag, :name, :class_name => ActsAsTaggableOn::Tag, :full => true, :id_element => '#some_element'
+  autocomplete :category, :name, :full => true
 
-  before_action :get_conditions, only: :index
   load_resource only: [:show, :update, :destroy, :edit, :remove_tag, :publish, :unpublish]
   authorize_resource
 
   def index
-    
-    @questions = @questions.includes(:question_type, :question_level, :user, :categories)
+    if params[:question_level_id]
+      @questions = Question.where(question_level_id: params[:question_level_id])
+    else
+      @questions = Question.question_with_type(params[:type])
+    end
+    @questions = @questions.includes(:question_level, :user, :categories)
   end
 
   def new
@@ -49,7 +53,7 @@ class QuestionsController < ApplicationController
     else
       flash[:alert] = "Question could not be deleted. please delete the associated questions first"
     end
-    redirect_to questions_path
+    redirect_to :back
   end
 
   def remove_tag
@@ -74,23 +78,12 @@ class QuestionsController < ApplicationController
   private
 
     def params_question
-      params.require(:question).permit(:question, :question_level_id, :question_type_id, :user_id, :tags_field, :categories_questions_attributes => [:category_id, :id, :_destroy], :options_attributes => [:option, :answer, :id, :_destroy])
+      params.require(:question).permit(:question, :question_level_id, :type, :user_id, :tags_field, :categories_questions_attributes => [:category_id, :id, :_destroy], :options_attributes => [:option, :answer, :id, :_destroy])
     end
 
     def build_categories_questions
       # CR_Priyank: I think {|question|} should be category, also try to move this code in model
       @categories_questions = @question.build_categories_questions
     end
-
-    def get_conditions
-      # CR_Priyank: We can move this to a scope
-      @questions = Question.all
-      if params[:question_level_id]
-        @questions = @questions.where(question_level_id: params[:question_level_id])
-      elsif params[:question_type_id]
-        @questions = @questions.where(question_type_id: params[:question_type_id])
-      end
-    end
-
 
 end

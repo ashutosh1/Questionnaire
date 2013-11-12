@@ -1,7 +1,7 @@
 module QuestionsHelper
 
   def select_question_type
-    QuestionType.all.collect{|qt| [qt.name, qt.id]}
+    Question::QUESTION_TYPE.collect{|key, val| [key, key]}
   end
 
   def select_question_level

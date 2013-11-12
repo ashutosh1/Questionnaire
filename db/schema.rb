@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131108064231) do
+ActiveRecord::Schema.define(version: 20131111131844) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
     t.string   "ancestry"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "questions_count", default: 0
   end
 
   add_index "categories", ["ancestry"], name: "index_categories_on_ancestry", using: :btree
@@ -61,6 +62,7 @@ ActiveRecord::Schema.define(version: 20131108064231) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "questions_count", default: 0
   end
 
   add_index "question_levels", ["name"], name: "index_question_levels_on_name", unique: true, using: :btree
@@ -75,17 +77,17 @@ ActiveRecord::Schema.define(version: 20131108064231) do
 
   create_table "questions", force: true do |t|
     t.text     "question"
-    t.integer  "question_type_id",  null: false
     t.integer  "question_level_id", null: false
     t.integer  "user_id",           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "published_at"
+    t.string   "type"
   end
 
   add_index "questions", ["published_at"], name: "index_questions_on_published_at", using: :btree
   add_index "questions", ["question_level_id"], name: "index_questions_on_question_level_id", using: :btree
-  add_index "questions", ["question_type_id"], name: "index_questions_on_question_type_id", using: :btree
+  add_index "questions", ["type"], name: "index_questions_on_type", using: :btree
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
 
   create_table "questions_test_sets", id: false, force: true do |t|

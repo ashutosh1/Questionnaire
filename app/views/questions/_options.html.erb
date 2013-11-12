@@ -4,4 +4,22 @@
     <%= c.text_field :option %>
     <%= c.link_to_remove "", :class => "icon-remove" %>
   <% end %>
+  
 </div>
+
+  
+  <script>
+  $("#question_type").on('change', function(){
+    if($(this).val() == "Subjective"){
+      $("div#optionsForm").html($("div#subjective").html());
+    }
+
+    if($(this).val() == "Mcq"){
+      $("div#optionsForm").html($("div#mcq").html());
+    }
+
+    if($(this).val() == "Mcqma"){
+      $("div#optionsForm").html($("div#mcqma").html());
+    }
+  });
+  </script>
