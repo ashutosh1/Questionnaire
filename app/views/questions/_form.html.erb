@@ -19,16 +19,14 @@
     </div>
   </div>    
   <div class="control-group">
-    <%= f.label :categories, :class => 'control-label' %>
-    <div class="controls category_options">
-      <%= f.fields_for :categories_questions, @categories_questions do |c| %>
-        <% category = c.object.category %>
-        <%= c.hidden_field :category_id %>
-        <%= c.check_box :_destroy, { :checked => category_checked?(c), :id => "#{category.name}_#{category.id}", :class => "categoryCheckBox" }, '0', '1'  %>
-        <label for="<%= category.name + "_#{category.id}" %>" class="categoryLabel">
-          <%= category.name %>
-        </label>&nbsp;
-      <% end %>
+    <%= f.label :category_field, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.autocomplete_field :category_field, autocomplete_category_name_questions_path, 'data-delimiter' => ',' %>
+      <div id='categories'>
+        <% if !@question.new_record? %>
+          <%= render :partial => 'show_categories' %>
+        <% end %>  
+      </div>
     </div>
   </div>
 
@@ -36,16 +34,13 @@
     <%= f.label :tags_field, :class => 'control-label' %>
     <div class="controls">
       <%= f.autocomplete_field :tags_field, autocomplete_tag_name_questions_path, 'data-delimiter' => ',' %>
-      <span id='addTagButton' onclick='addTags()'>Add</span>
-      <div id='tags'></div>
+      <div id='tags'>
+        <% if !@question.new_record? %>
+          <%= render :partial => 'show_tag' %>
+        <% end %>  
+      </div>
     </div>  
   </div>
-  <% if !@question.new_record? %>
-    <div class="control-group">
-      <div id="showFlashMsg"></div>
-      <div id="associatedTags"><%= render :partial => 'show_tag' %></div>
-    </div>
-  <% end %>  
 
   <div class="control-group">
     <%= f.label :options, :class => 'control-label' %>
@@ -59,10 +54,3 @@
     <%= f.submit nil, :class => 'btn btn-primary', :onclick => "fillTagContent()" %>
   </div>  
 <% end %>
-<script>
-// $('#question_tags_field').on('railsAutocomplete.select', function(event, data){
-//   /* Do something here */
-//   alert(data.item.id);
-// });
-
-</script>

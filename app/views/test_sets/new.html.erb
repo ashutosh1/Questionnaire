@@ -1,20 +1,17 @@
 <h2>New Test Set</h2>
-<%= form_tag search_questions_path, :method => :get, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_tag search_questions_path, :method => :get, :class => 'form-horizontal' do |f| %>
   <div class="control-group">
     <%= label_tag :category, nil, :class => 'control-label' %>
     <div class="controls">
       <%= autocomplete_field_tag 'category', '', autocomplete_category_name_questions_path, 'data-delimiter' => ',' %>
     </div>
   </div>
-
   <div class="control-group">
     <%= label_tag :tags, nil, :class => 'control-label' %>
     <div class="controls">
       <%= autocomplete_field_tag 'tags', '', autocomplete_tag_name_questions_path, 'data-delimiter' => ',' %>
     </div>
   </div>
-
-  
   <% show_question_type.each do |qt| %>
     <div class="control-group">
       <%= label_tag qt[0], nil, :class => 'control-label'  %>

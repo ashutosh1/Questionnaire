@@ -15,7 +15,7 @@ describe QuestionLevelsController do
     end
   end
 
-  shared_examples_for "call before_action load_resource for question type" do 
+  shared_examples_for "call before_action load_resource for question level" do 
 
     it "QuestionLevel should_receive find" do 
       QuestionLevel.should_receive(:find).and_return(question_level)
@@ -46,9 +46,8 @@ describe QuestionLevelsController do
   let(:role) { mock_model(Role, save: true, id: 1, name: User::ROLES.first) }
   let(:roles_user) { mock_model(RolesUser, save: true, id: 1, role_id: role1.id, user_id: user.id) }
   let(:category) {mock_model(Category, save: true, id: 1, name: 'category')}
-  let(:question_type) {mock_model(QuestionType, save: true, id: 1, name: 'mcq')}
   let(:question_level) {mock_model(Category, save: true, id: 2, name: 'beginner')}
-  let(:question) { mock_model(Question, save: true, id: 1, question: "what is sql?", question_type_id: question_type.id, question_level_id: question_level.id, user_id: user.id) }
+  let(:question) { mock_model(Question, save: true, id: 1, question: "what is sql?",type: "Subjective", question_level_id: question_level.id, user_id: user.id) }
   let(:categories_question) {mock_model(CategoriesQuestion, save: true, category_id: category.id, question_id: question.id)}
   
   before do
@@ -170,7 +169,7 @@ describe QuestionLevelsController do
     end
 
     it_should 'should_receive authorize_resource'
-    it_should 'call before_action load_resource for question type' 
+    it_should "call before_action load_resource for question level" 
 
     before do 
       should_authorize(:show, question_level)
@@ -206,7 +205,7 @@ describe QuestionLevelsController do
     end
 
     it_should 'should_receive authorize_resource'
-    it_should "call before_action load_resource for question type" 
+    it_should "call before_action load_resource for question level" 
 
     before do 
       should_authorize(:update, question_level)
@@ -271,7 +270,7 @@ describe QuestionLevelsController do
     end
 
     it_should 'should_receive authorize_resource'
-    it_should "call before_action load_resource for question type" 
+    it_should "call before_action load_resource for question level" 
 
     before do 
       should_authorize(:destroy, question_level)

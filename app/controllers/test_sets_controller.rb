@@ -1,26 +1,24 @@
 class TestSetsController < ApplicationController
   include GenerateAndSendSets
 
-  before_action :find_test_set, only: [:show, :download_sets]
+  load_resource only: [:show, :download_sets]
   before_action :assign_variables, only: :search_questions
   before_action :filter_and_get_num_of_questions, only: :search_questions
   before_action :find_questions, only: :create
+  
   authorize_resource
 
- def index
-  @test_sets = TestSet.all.order("created_at desc").paginate(page: params[:page], per_page: 100)
- end
-
-  def new
-    # @test_set = TestSet.new
+  def index
+    @test_sets = TestSet.order("created_at desc").paginate(page: params[:page], per_page: 100)
   end
 
   def create
     @test_set = TestSet.new params_test_set
-    @test_set.questions << @questions
+    @test_set.questions = @questions
     if @test_set.save
       if params[:num_of_sets].present?
         generate_and_send_sets(params[:num_of_sets].to_i)
+        render :nothing => true
       else
         redirect_to test_sets_path, :notice => "Test Set has been created successfully"
       end
@@ -29,12 +27,9 @@ class TestSetsController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def download_sets
-    @num_of_sets = params[:num_of_sets].to_i
-    generate_and_send_sets
+    generate_and_send_sets(params[:num_of_sets].to_i)
+    render :nothing => true
   end
 
   def search_questions
@@ -44,7 +39,7 @@ class TestSetsController < ApplicationController
   private
 
     def params_test_set
-      params.require(:test_set).permit(:name, :number, :instruction)
+      params.require(:test_set).permit(:name, :instruction)
     end
     
     def assign_variables
@@ -53,11 +48,6 @@ class TestSetsController < ApplicationController
 
     def filter_and_get_num_of_questions
       @questions, @errors = TestSet.get_questions(@question_types, @query, @categories, @tags)
-    end
-
-    def find_test_set
-      @test_set = TestSet.where(permalink: params[:id]).includes(questions: :question_level).first
-      redirect_to :back, :alert => "No test set found for specified id" unless @test_set
     end
 
     def find_questions

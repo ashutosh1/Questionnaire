@@ -1,4 +1,4 @@
-<h2><%= @question.question_type.name.capitalize %>(<%= @question.question_level.name.capitalize %>) question <%= @question.id %></h2>
+<h2><%= @question.type.capitalize %>(<%= @question.question_level.name.capitalize %>) question <%= @question.id %></h2>
 
 <div class="item_left_column">
   <table class="fk-specs-type2">
@@ -18,7 +18,7 @@
     </tr>
     <tr>
       <td class="specs-key">Type</td>
-      <td class="specs-value"><%= link_to @question.question_type.name, question_type_questions_path(@question.question_type) %></td>
+      <td class="specs-value"><%= link_to @question.type, questions_list_path(@question.type) %></td>
     </tr>
     <tr>
       <td class="specs-key">categories</td>

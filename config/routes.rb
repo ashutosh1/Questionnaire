@@ -6,7 +6,7 @@ Questionnaire::Application.routes.draw do
 
   get "/users/(:type)", to: "users#index", type: /deleted/, as: "users"
 
-  resources :users, except: [:edit, :new, :index]
+  resources :users, except: [:show, :new, :index]
 
   concern :nested_questions do
     resources :questions, only: :index
@@ -23,7 +23,6 @@ Questionnaire::Application.routes.draw do
       get :autocomplete_category_name
     end
     member do 
-      delete :remove_tag
       put :publish
       put :unpublish
     end

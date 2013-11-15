@@ -1,6 +1,7 @@
 <% if flash[:alert] %>
-  $('div.flashMessageDiv').html("<%= escape_javascript(render :partial => 'layouts/flash_message')%>");
-  $('#user_email').val('');
+  $('div.flashMessageDiv').html("<%= escape_javascript(bootstrap_flash)%>");
+  $('#userEmailTextField').val('');
+  $('#userEmailTextField').removeAttr("readonly");
   $('input[type="checkbox"]').each(function(){
     $(this).attr('checked', false);
   });

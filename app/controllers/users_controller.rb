@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  load_resource only: [:destroy, :update, :show]
+  load_resource only: [:destroy, :update, :edit]
   authorize_resource
 
   def index
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
-  def show
+  def edit
     return redirect_to request.referrer if !request.xhr?
     return flash.now[:alert] = "You can not edit your roles" if @user.id == current_user.id
     build_roles_users

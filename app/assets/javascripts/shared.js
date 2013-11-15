@@ -27,7 +27,6 @@ $(function() {
       type: 'PUT', 
       data: 'target_node=' + target_node_id
     });
-
   });
 
 });
@@ -46,11 +45,11 @@ function addTags() {
   var tagsHTML = ""
   var previousTags = $(".DelTag").get();
   $.each(previousTags, function(key, currEle) { 
-    tagsHTML += "<span onclick='delTag(this)' class='DelTag'>"+currEle.innerHTML+"</span>";
+    tagsHTML += "<span onclick='delTag(this)' class='icon-remove css_class_for_tag'><span class='DelTag'>"+currEle.innerHTML+"</span></span>";
   });
   $.each(tagsArray, function(key, value) { 
     if(value.trim() != "") {
-      tagsHTML += "<span onclick='delTag(this)' class='DelTag'>"+value+"</span>";
+      tagsHTML += "<span onclick='delTag(this)' class='icon-remove css_class_for_tag'><span class='DelTag'>"+value+"</span></span>";
     }
   });
   $("#tags").html(tagsHTML)
@@ -69,6 +68,7 @@ function fillTagContent() {
     }
   });
   $("#question_tags_field").val(tags);
+  fillCategoryId();
 }
 
 function delTag(currentTag) {
@@ -108,11 +108,11 @@ $(function() {
 
   $("#userEmailTextField").on("focusout", function(){
     $("span#emailError").html('');
-    valu = $(this).val().slice(-11);
-    if (valu == "@vinsol.com"){
-    }else{
-      $(this).val(valu + '@vinsol.com');
-    }
+    // valu = $(this).val().slice(-11);
+    // if (valu == "@vinsol.com"){
+    // }else{
+    //   $(this).val(valu + '@vinsol.com');
+    // }
   });
 
   $("#userEmailTextField").on("focusin", function(){
@@ -123,5 +123,65 @@ $(function() {
       
     }
   });
+
+  $("#userForm").on("submit", function(event){
+    var valu = $("#userEmailTextField").val();
+    $("#userEmailTextField").val(valu + "@vinsol.com")
+  });
+
+  $("#userEmailTextField").focus();
   
 });
+
+$(function() {
+  $("#download_now").on("click", function(event){
+    var v = $("input#num_of_sets").val();
+    if (!v){
+      $("input#num_of_sets").val("1");
+    }  
+  })
+
+  $('#question_tags_field').on('railsAutocomplete.select', function(event, data){
+    addTags();
+  });
+
+  $('#question_tags_field').on('change', function(event){
+    addTags();
+    $('#question_tags_field').focus();
+  });
+  $("#question_category_field").on('railsAutocomplete.select', function(event, data){
+    addCategories(data);
+  });
+
+});
+
+function addCategories(data) {
+  var categoryArray = $("#question_category_field").val().split(",");
+  $("#question_category_field").val("");
+  var catHTML = ""
+  $.each(categoryArray, function(key, value) { 
+    if(value.trim() != "") {
+      catHTML += "<span onclick='delCategory(this)' class='icon-remove css_class_for_tag'><span class='DelCategory' id=" + data.item.id + ">" +value+"</span></span>";
+    }
+  });
+  $("#categories").append(catHTML);
+}
+
+function delCategory(currentCat) {
+  $(currentCat).remove();
+}
+
+function fillCategoryId() {
+  var previousCatg = $(".DelCategory").get()
+  var catg = ""
+  $.each(previousCatg, function(key, currEle) {
+    if(key != previousCatg.length-1) { 
+      catg += $(this).attr("id") + ",";      
+    }
+    else {
+      catg += $(this).attr("id")
+    }
+  });
+  $("#question_category_field").val(catg);
+}
+

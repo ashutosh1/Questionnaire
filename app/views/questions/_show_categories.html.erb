@@ -1,0 +1,3 @@
+<% @question.categories.each do |cat| %>
+  <span onclick='delCategory(this)' class="icon-remove css_class_for_tag"><span class='DelCategory' id="<%= cat.id %>"><%= cat.name %></span></span>
+<% end %>

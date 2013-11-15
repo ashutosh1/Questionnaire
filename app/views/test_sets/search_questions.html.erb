@@ -3,7 +3,7 @@
     <% @errors.each do|k,msg| %>
       <%=  msg %><br />
     <% end %>
-  </div>
+  </div><br />
 <% else %>
   <div class="newFormForTestSet">
     <%= form_for @test_set, :html => { :class => 'form-horizontal' } do |f| %>
@@ -38,20 +38,3 @@
     </div>  
   <% end %>  
 <% end %>
-
-<style>
-  .testSetError{background-color: #f2dede;color: #b94a48;border: 5px solid #eed3d7;border-radius: 5px;}
-  .testSetQuestion{background-color: #F1F1F1;color: #b94a48;border: 5px solid #F1F1F1;border-radius: 5px;display: block;margin-bottom: 10px;}
-  span.testsetQuestionSpan{display: block;}
-  div.downloadLink{display: block;padding: 10px;  margin-left: 10px;  }
-  .testsetSpan{color: black;}
-  .newFormForTestSet{border: 5px solid;border-radius: 5px;padding: 10px;margin: 10px;}
-</style>
-<script>
-$("#download_now").on("click", function(event){
-  var v = $("input#num_of_sets").val();
-  if (!v){
-    $("input#num_of_sets").val("1");
-  }  
-})
-</script>

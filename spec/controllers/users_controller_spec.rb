@@ -28,19 +28,7 @@ describe UsersController do
   shared_examples_for 'call build_roles_users' do 
     describe "should_receive methods" do 
       it "should_receive roles_users" do 
-        user.should_receive(:roles_users).twice.and_return([roles_user1])
-      end
-
-      it "Role should_receive where" do 
-        Role.should_receive(:where).with(["id NOT IN (?)", [user.id]]).and_return([role2])
-      end
-
-      it "should_receive roles_users" do 
-        role2.should_receive(:roles_users).and_return(roles_user2)
-      end
-
-      it "should_receive build" do 
-        roles_user2.should_receive(:build).and_return(roles_user2)
+        user.should_receive(:build_roles_users).and_return([roles_user1])
       end
 
       after do 
@@ -50,76 +38,13 @@ describe UsersController do
 
     it "should assign instance variable roles_users" do 
       send_request
-      expect(assigns[:roles_users]).to eq([roles_user1, roles_user2])
-    end
-
-    context "user has no roles" do 
-      before do 
-        user.stub(:roles_users).and_return([])
-        Role.stub(:where).with(["id NOT IN (?)", []]).and_return([])
-        role1.stub(:roles_users).and_return(roles_user1)
-        role2.stub(:roles_users).and_return(roles_user2)
-      end
-      describe "should_receive methods" do 
-
-        it "Role should_receive all" do 
-          Role.should_receive(:all).and_return([role1, role2])
-        end
-
-        it "role1 should_receive roles_users" do 
-          role1.should_receive(:roles_users).and_return(roles_user1)
-        end
-
-        it "roles_user1 should_receive build" do 
-          roles_user1.should_receive(:build).and_return(roles_user1)
-        end
-
-        it "role2 should_receive roles_users" do 
-          role2.should_receive(:roles_users).and_return(roles_user2)
-        end
-
-        it "roles_user2 should_receive build" do 
-          roles_user2.should_receive(:build).and_return(roles_user2)
-        end
-
-        after do 
-          send_request
-        end
-      end
-
-      it "should assign instance variable" do 
-        send_request
-        expect(assigns[:roles_users]).to eq([roles_user1, roles_user2])
-      end
-    end
-
-    context "user has roles" do 
-      it "Role should_not_receive all" do 
-        Role.should_not_receive(:all)
-      end
-
-      it "role1 should_not_receive roles_users" do 
-        role1.should_not_receive(:roles_users)
-      end
-
-      it "roles_user1 should_not_receive build" do 
-        roles_user1.should_not_receive(:build)
-      end
-
-      after do 
-        send_request
-      end
+      expect(assigns[:roles_users]).to eq([roles_user1])
     end
   end
 
   shared_examples_for "call find_users_and_build_roles" do
     it_should 'call build_roles_users'
     it_should 'call find_users'
-
-    it "should render_template index" do 
-      send_request
-      response.should render_template "index"
-    end
   end
 
   shared_examples_for "call before_action load_resource" do 
@@ -161,6 +86,7 @@ describe UsersController do
     @users.stub(:order).with('created_at desc').and_return(@users)
     User.stub(:new).and_return(user)
     user.stub(:roles_users).and_return([roles_user1])
+    user.stub(:build_roles_users).and_return([roles_user1])
     Role.stub(:where).with(["id NOT IN (?)", [user.id]]).and_return([role2])
     role2.stub(:roles_users).and_return(roles_user2)
     roles_user2.stub(:build).and_return(roles_user2)
@@ -305,6 +231,11 @@ describe UsersController do
         response.should_not redirect_to users_path
       end
 
+      it "should render_template index" do 
+        send_request
+        response.should render_template "index"
+      end
+
       it_should "call find_users_and_build_roles"
 
     end
@@ -357,6 +288,11 @@ describe UsersController do
         flash[:notice].should_not eq("User with email #{user.email} has been updated successfully")
       end
       
+      it "should render_template index" do 
+        send_request
+        response.should render_template "index"
+      end
+
       it_should "call find_users_and_build_roles"
 
     end    
@@ -414,21 +350,21 @@ describe UsersController do
 
   describe "SHOW" do 
     def send_request
-      xhr :get, :show, id: user.id
+      xhr :get, :edit, id: user.id
     end
 
     it_should 'should_receive authorize_resource'
     it_should 'call before_action load_resource' 
 
     before do 
-      should_authorize(:show, user)
+      should_authorize(:edit, user)
       User.stub(:find).and_return(user)
       request.env["HTTP_REFERER"] = users_path
     end
 
-    it "should render_template show" do 
+    it "should render_template edit" do 
       send_request
-      response.should render_template "show"
+      response.should render_template "edit"
     end
     
     context "xhr request" do 
@@ -470,7 +406,7 @@ describe UsersController do
 
     context "html request" do 
       it "should redirect_to referrer" do 
-        get :show, id: user.id
+        get :edit, id: user.id
         response.should redirect_to users_path
       end
     end

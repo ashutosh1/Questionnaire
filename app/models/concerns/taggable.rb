@@ -8,12 +8,9 @@ module Taggable
   end
 
   def add_tags
-    tag_list.add(tags_field.split(",")) if tags_field.present?
-  end
-
-  def remove_tags(name)
-    tag_list.remove(name)
-    save
+    tag_should_remove = tag_list - tags_field.split(",")
+    tag_list.remove(tag_should_remove)
+    tag_list.add(tags_field.split(","))
   end
 
 end

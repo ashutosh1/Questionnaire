@@ -4,11 +4,9 @@ describe CategoriesQuestion do
   
   before(:each) do 
     @user = User.create(email: "ashutosh.tiwari@vinsol.com")
-    @question_type = QuestionType.create(name: "subjective")
     @question_level = QuestionLevel.create(name: "beginner")
-    @question = Question.create(question: "What is sql?", question_type_id: @question_type.id, question_level_id: @question_level.id, user_id: @user.id)
-    @category = Category.create(name: "GS")
-    @category.questions << @question
+    @category = Category.create(name: 'test', questions_count: 0)
+    @question = Question.create!(question: "What is sql?", question_level_id: @question_level.id, user_id: @user.id, type: 'Subjective', tags_field: "also", category_field: "#{@category.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}})
     @categories_question = @category.categories_questions    
   end
   

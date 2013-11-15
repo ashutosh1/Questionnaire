@@ -3,126 +3,46 @@ include ControllerHelper
 
 describe QuestionsController do
 
-  shared_examples_for 'call build_categories_questions' do 
-    describe "should_receive methods" do 
-      it "should_receive categories_questions" do 
-        question.should_receive(:categories_questions).twice.and_return([categories_question1])
-      end
+  shared_examples_for "call before_action load_resource for questions" do 
 
-      it "Category should_receive where" do 
-        Category.should_receive(:where).with(["id NOT IN (?)", [question.id]]).and_return([category2])
-      end
-
-      it "should_receive categories_questions" do 
-        category2.should_receive(:categories_questions).and_return(categories_question2)
-      end
-
-      it "should_receive build" do 
-        categories_question2.should_receive(:build).and_return(categories_question2)
-      end
-
-      after do 
-        send_request
-      end
-    end
-
-    it "should assign instance variable categories_questions" do 
+    it "Question should_receive find" do 
+      Question.should_receive(:find).and_return(question)
       send_request
-      expect(assigns[:categories_questions]).to eq([categories_question1, categories_question2])
     end
 
-    context "question has no category" do 
-      before do 
-        question.stub(:categories_questions).and_return([])
-        Category.stub(:where).with(["id NOT IN (?)", []]).and_return([])
-        category1.stub(:categories_questions).and_return(categories_question1)
-        category2.stub(:categories_questions).and_return(categories_question2)
+    context "record found" do 
+      it "should assign instance variable" do 
+        send_request
+        expect(assigns[:question]).to eq(question)
       end
-      describe "should_receive methods" do 
+    end
 
-        it "Category should_receive all" do 
-          Category.should_receive(:all).and_return([category1, category2])
-        end
+    context "record not found" do 
+      before do 
+        Question.stub(:find).and_return(nil)
+      end
 
-        it "category1 should_receive categories_questions" do 
-          category1.should_receive(:categories_questions).and_return(categories_question1)
-        end
+      it "should raise exception" do 
+        expect{ send_request }.to raise_exception
+      end
+    end
 
-        it "categories_question1 should_receive build" do 
-          categories_question1.should_receive(:build).and_return(categories_question1)
-        end
-
-        it "category2 should_receive categories_questions" do 
-          category2.should_receive(:categories_questions).and_return(categories_question2)
-        end
-
-        it "categories_question2 should_receive build" do 
-          categories_question2.should_receive(:build).and_return(categories_question2)
-        end
-
-        after do 
+  end
+  
+  shared_examples_for "call current_class_name" do
+    describe "current_class_name" do 
+      context "params[:type] not present" do 
+        it "Question should_receive includes" do 
+          Question.should_receive(:includes).with(:question_level, :user, :categories, :tags, :test_sets).and_return(@questions)
           send_request
         end
       end
 
-      it "should assign instance variable" do 
-        send_request
-        expect(assigns[:categories_questions]).to eq([categories_question1, categories_question2])
-      end
-    end
-
-    context "question has category" do 
-      it "Category should_not_receive all" do 
-        Category.should_not_receive(:all)
-      end
-
-      it "category1 should_not_receive categories_questions" do 
-        category1.should_not_receive(:categories_questions)
-      end
-
-      it "categories_question1 should_not_receive build" do 
-        categories_question1.should_not_receive(:build)
-      end
-
-      after do 
-        send_request
-      end
-    end
-  end
-
-  shared_examples_for "call before_action find_user" do 
-    describe "should_receive methods" do 
-      it "should_receive where" do 
-        Question.should_receive(:where).with(id: question.id.to_s).and_return(@questions)
-      end
-
-      it "should_receive includes" do 
-        @questions.should_receive(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
-      end
-
-      after do 
-        send_request
-      end
-    end
-
-    it "should assigns instance variable" do 
-      send_request
-      expect(assigns[:question]).to eq(question)
-    end
-
-    context "question not found" do 
-      before do 
-        @questions.should_receive(:includes).with(:question_type, :question_level, :user, :categories).and_return([])
-        request.env["HTTP_REFERER"] = questions_path
-        send_request
-      end
-
-      it "should have flash alert" do 
-        flash[:alert].should eq("No question type found for specified id")
-      end
-
-      it "should redirect_to back" do 
-        response.should redirect_to questions_path
+      context "params[:type] present" do 
+        it "should_receive includes" do 
+          Subjective.should_receive(:includes).with(:question_level, :user, :categories, :tags, :test_sets).and_return(@questions)
+          get :index, type: "Subjective"
+        end        
       end
     end
   end
@@ -132,19 +52,20 @@ describe QuestionsController do
   let(:roles_user) { mock_model(RolesUser, save: true, id: 1, role_id: role1.id, user_id: user.id) }
   let(:category1) {mock_model(Category, save: true, id: 1, name: 'category1')}
   let(:category2) {mock_model(Category, save: true, id: 2, name: 'category2')}
-  let(:question_type) {mock_model(QuestionType, save: true, id: 1, name: 'mcq')}
-  let(:question_level) {mock_model(Category, save: true, id: 2, name: 'beginner')}
-  let(:question) { mock_model(Question, save: true, id: 1, question: "what is sql?", question_type_id: question_type.id, question_level_id: question_level.id, user_id: user.id) }
+  let(:question_level) {mock_model(QuestionLevel, save: true, id: 2, name: 'beginner')}
+  let(:question) { mock_model(Question, save: true, question: "What is sql?", question_level_id: question_level.id, user_id: user.id, type: 'Subjective', tags_field: "also", category_field: "#{category1.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}}) }
   let(:categories_question1) {mock_model(CategoriesQuestion, save: true, category_id: category1.id, question_id: question.id)}
   let(:categories_question2) {mock_model(CategoriesQuestion, save: true, category_id: category2.id, question_id: question.id)}
   let(:tag) {mock_model(ActsAsTaggableOn::Tag, save: true, name: 'outdated')} 
   let(:tagging) {mock_model(ActsAsTaggableOn::Tagging)} 
+  let(:test_set) {mock_model(TestSet)} 
 
   before do
     controller.stub(:current_user).and_return(user)
     @users = [user]
+    @test_sets = [test_set]
     @questions = [question]
-    @valid_attributes = { :question => "define test?", question_level_id: question_level.id, question_type_id: question_type.id }
+    @valid_attributes = { question: "How r u?", question_level_id: question_level.id, user_id: user.id, type: 'Subjective', tags_field: "also", category_field: "#{category2.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}}}
     question.stub(:categories_questions).and_return([categories_question1])
     Category.stub(:where).with(["id NOT IN (?)", [question.id]]).and_return([category2])
     category2.stub(:categories_questions).and_return(categories_question2)
@@ -153,6 +74,19 @@ describe QuestionsController do
     categories_question1.stub(:build).and_return(categories_question1)
     Category.stub(:all).and_return([category1, category2])
   end
+
+  describe "autocomplete for tag" do 
+    it "should define autocomplete method for tag name" do 
+      QuestionsController.method_defined?(:autocomplete_tag_name).should be_true
+    end
+  end
+
+  describe "autocomplete for category" do 
+    it "should define autocomplete method for category name" do 
+      QuestionsController.method_defined?(:autocomplete_category_name).should be_true
+    end
+  end
+
   
   describe "index" do 
     def send_request
@@ -160,14 +94,15 @@ describe QuestionsController do
     end
     
     it_should 'should_receive authorize_resource'
+    it_should "call current_class_name"
 
     before do 
       should_authorize(:index, Question)
-      Question.stub(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
+      Question.stub(:includes).with(:question_level, :user, :categories, :tags, :test_sets).and_return(@questions)
     end
 
     it "should_receive includes" do 
-      Question.should_receive(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
+      Question.should_receive(:includes).with(:question_level, :user, :categories, :tags, :test_sets).and_return(@questions)
       send_request
     end
 
@@ -179,6 +114,33 @@ describe QuestionsController do
     it "should render_template index" do 
       send_request
       response.should render_template "index"
+    end
+
+    context "params[:question_level_id] present" do 
+      def send_request
+        get :index, question_level_id: 1 
+      end
+
+      before do 
+        @questions.stub(:where).with(question_level_id: "1").and_return(@questions)
+      end
+
+      it "should_receive where" do 
+        @questions.should_receive(:where).with(question_level_id: "1").and_return(@questions)
+        send_request
+      end
+
+      it "should assign instance variable" do
+        send_request 
+        expect(assigns[:questions]).to eq(@questions)
+      end
+    end
+
+    context "params[:question_level_id] not present" do 
+      it "should_receive where" do 
+        @questions.should_not_receive(:where)
+        send_request
+      end
     end
   end
 
@@ -222,14 +184,11 @@ describe QuestionsController do
       send_request
       response.should render_template "new"
     end
-
-    it_should 'call build_categories_questions'
-
   end
 
   describe "CREATE" do 
     def send_request
-      post :create, question: {question: "Test question?", question_type_id: question_type.id, question_level_id: question_level.id}
+      post :create, question: {question: "How was the test?", question_level_id: question_level.id, user_id: user.id, type: 'Subjective', tags_field: "also", category_field: "#{category1.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}}}
     end
     
     it_should 'should_receive authorize_resource'
@@ -306,9 +265,6 @@ describe QuestionsController do
         send_request
         response.should render_template "new"
       end
-
-      it_should 'call build_categories_questions'
-
     end
   end
 
@@ -318,19 +274,19 @@ describe QuestionsController do
     end
 
     it_should 'should_receive authorize_resource'
+    it_should "call before_action load_resource for questions"
 
     before do 
       should_authorize(:show, question)
+      Question.stub(:find).and_return(question)
       Question.stub(:where).with(id: question.id.to_s).and_return(@questions)
-      @questions.stub(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
+      @questions.stub(:includes).with(:question_level, :user, :categories).and_return(@questions)
     end
 
     it "should render_template show" do 
       send_request
       response.should render_template "show"
     end
-
-    it_should "call before_action find_user" 
   end
 
   describe "EDIT" do 
@@ -339,13 +295,11 @@ describe QuestionsController do
     end
 
     it_should 'should_receive authorize_resource'
-    it_should 'call build_categories_questions'
-    it_should "call before_action find_user" 
-
+    it_should "call before_action load_resource for questions"
+    
     before do 
       should_authorize(:edit, question)
-      Question.stub(:where).with(id: question.id.to_s).and_return(@questions)
-      @questions.stub(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
+      Question.stub(:find).and_return(question)
     end
 
     it "should render_template edit" do
@@ -360,12 +314,11 @@ describe QuestionsController do
     end
 
     it_should 'should_receive authorize_resource'
-    it_should "call before_action find_user" 
-
+    it_should "call before_action load_resource for questions"
+    
     before do 
       should_authorize(:update, question)
-      Question.stub(:where).with(id: question.id.to_s).and_return(@questions)
-      @questions.stub(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
+      Question.stub(:find).and_return(question)
       controller.stub(:params_question).and_return(@valid_attributes)
       question.stub(:update_attributes).with(@valid_attributes).and_return(true)
     end
@@ -414,9 +367,6 @@ describe QuestionsController do
         send_request
         response.should render_template "edit"
       end
-
-      it_should 'call build_categories_questions'
-
     end
   end
 
@@ -426,12 +376,12 @@ describe QuestionsController do
     end
 
     it_should 'should_receive authorize_resource'
-    it_should "call before_action find_user" 
-
+    it_should "call before_action load_resource for questions"
+    
     before do 
       should_authorize(:destroy, question)
-      Question.stub(:where).with(id: question.id.to_s).and_return(@questions)
-      @questions.stub(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
+      Question.stub(:find).and_return(question)
+      request.env["HTTP_REFERER"] = questions_path
     end
 
     it "should_receive destroy" do 
@@ -477,7 +427,7 @@ describe QuestionsController do
   
   describe "params_question" do
     def send_request
-      post :create, question: {"name"=>"test", "question"=>"who are u?", "question_level_id"=>"2", "question_type_id"=>"1", "user_id"=>"1", "categories_questions_attributes"=>{"0"=>{"category_id"=>"4", "id"=>"6", "_destroy"=>"0"}}, "options_attributes"=>{"1383260832744"=>{"option"=>"zscvazdvs", "answer"=>"0", "_destroy"=>"false"}}}
+      post :create, question: {question: "What is it?", question_level_id: question_level.id, user_id: user.id, type: 'Subjective', tags_field: "also", category_field: "#{category1.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}}}
     end
 
     before do 
@@ -486,45 +436,95 @@ describe QuestionsController do
     end
 
     it 'should_receive with data without name' do
-      question.should_receive(:build).with({"question"=>"who are u?", "question_level_id"=>"2", "question_type_id"=>"1", "user_id"=>"1", "categories_questions_attributes"=>{"0"=>{"category_id"=>"4", "id"=>"6", "_destroy"=>"0"}}, "options_attributes"=>{"1383260832744"=>{"option"=>"zscvazdvs", "answer"=>"0", "_destroy"=>"false"}}}.with_indifferent_access).and_return(question)
+      question.should_receive(:build).with({"question"=>"What is it?", "question_level_id"=>"2", "type"=>"Subjective", "user_id"=>"1", "tags_field"=>"also", "category_field"=>"1", "options_attributes"=>{"1384334256874"=>{"option"=>"asdfsafa", "answer"=>"1", "_destroy"=>"false"}}}.with_indifferent_access).and_return(question)
       send_request
     end
   end
-  
-  describe "autocomplete" do 
-    it "should define autocomplete method for tag name" do 
-      QuestionsController.method_defined?(:autocomplete_tag_name).should be_true
-    end
-  end
 
-  describe "remove_tag" do 
+  describe "#publish" do 
     def send_request
-      xhr :put, :remove_tag, id: question.id, tag_name: tag.name
+      put :publish, id: question.id 
     end
 
     it_should 'should_receive authorize_resource'
-    it_should "call before_action find_user" 
-
+    it_should "call before_action load_resource for questions"
+    
     before do 
-      should_authorize(:remove_tag, question)
-      Question.stub(:where).with(id: question.id.to_s).and_return(@questions)
-      @questions.stub(:includes).with(:question_type, :question_level, :user, :categories).and_return(@questions)
-      question.stub(:remove_tags).with(tag.name).and_return(true)
+      should_authorize(:publish, question)
+      Question.stub(:find).and_return(question)
+      question.stub(:publish!).and_return(true)
+      request.env["HTTP_REFERER"] = questions_path
     end
-
-    it "should_receive remove_tags" do 
-      question.should_receive(:remove_tags).with(tag.name).and_return(true)
+    
+    it "should_receive publish!" do
+      question.should_receive(:publish!).and_return(true)
       send_request
     end
 
-    it "should have flash notice" do 
+    it "should have a flash notice" do 
       send_request
-      flash[:notice].should eq("Tag #{tag.name} has been removed successfully")
+      flash[:notice].should eq("Question successfully published")
     end
 
-    it "should render_template remove_tag" do 
+    it "should redirect_to back" do 
       send_request
-      response.should render_template "remove_tag"
+      response.should redirect_to questions_path
+    end
+  end
+
+  describe "#unpublish" do 
+    def send_request
+      put :unpublish, id: question.id 
+    end
+
+    it_should 'should_receive authorize_resource'
+    it_should "call before_action load_resource for questions"
+    
+    before do 
+      should_authorize(:unpublish, question)
+      Question.stub(:find).and_return(question)
+      question.stub(:unpublish!).and_return(true)
+      request.env["HTTP_REFERER"] = questions_path
+      question.stub(:test_sets).and_return(@test_sets)
+      test_set.stub(:name).and_return("test")
+    end
+    
+    it "should_receive publish!" do
+      question.should_receive(:unpublish!).and_return(true)
+      send_request
+    end
+    
+    context "unpublished" do 
+      it "should have a flash notice" do 
+        send_request
+        flash[:notice].should eq("Question successfully unpublished")
+      end
+
+      it "should not have a flash alert" do 
+        send_request
+        flash[:alert].should_not eq("Question is associated with test sets (#{question.test_sets.collect(&:name).join(', ')}), so it can not be unpublished.")
+      end
+    end
+
+    context "not unpublished" do 
+      before do
+        question.stub(:unpublish!).and_return(false)
+      end
+
+      it "should have a flash alert" do 
+        send_request
+        flash[:alert].should eq("Question is associated with test sets (#{question.test_sets.collect(&:name).join(', ')}), so it can not be unpublished.")
+      end
+
+      it "should not have a flash notice" do 
+        send_request
+        flash[:notice].should_not eq("Question successfully unpublished")
+      end
+    end
+
+    it "should redirect_to back" do 
+      send_request
+      response.should redirect_to questions_path
     end
   end
 

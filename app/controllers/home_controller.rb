@@ -6,6 +6,6 @@ class HomeController < ApplicationController
   end
 
   def show_tag
-    @questions = Question.tagged_with(params[:tag], :on => :tags).includes(:question_type, :question_level, :user, :categories)
+    @questions = Question.tagged_with(params[:tag], :on => :tags).includes(:question_level, :user, :categories)
   end
 end

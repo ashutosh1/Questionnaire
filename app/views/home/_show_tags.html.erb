@@ -16,7 +16,7 @@
       <tr>
         <td width="35%"><%= link_to question.question, question_path(question) %></td>
         <td><%= question.question_level.name %></td>
-        <td><%= question.question_type.name %></td>
+        <td><%= question.type %></td>
         <td width="20%"><%= question.categories.collect(&:name).join(', ') %></td>
         <td><%= question.user.name %></td>
         <td>

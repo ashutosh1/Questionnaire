@@ -27,7 +27,7 @@ shared_examples_for 'use taggable module' do
 
   describe "#add_tags" do
     before do 
-      @question = Question.create(question: "what is this?", question_type_id: @question_type.id, question_level_id: @question_level.id, user_id: @user.id)
+      @question = Question.create!(question: "What ?", question_level_id: @question_level.id, user_id: @user.id, type: 'Subjective', tags_field: "", category_field: "#{@category.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}})
     end
 
     describe "should_receive methods" do 
@@ -37,24 +37,18 @@ shared_examples_for 'use taggable module' do
       end
     end
 
-    context "tags_field is blank" do 
-    
-      it "should return nil" do 
-        @question.add_tags.should be_nil
-      end
-
-    end
-
-    context "tags_field is present" do 
+    describe "tags_field is present" do 
       before do 
-        @question = Question.new(question: "what is this?", question_type_id: @question_type.id, question_level_id: @question_level.id, tags_field: "LapTop", user_id: @user.id)
+        @category = Category.create(name: 'test', questions_count: 0)
+        @question = Question.create!(question: "What is sql?", question_level_id: @question_level.id, user_id: @user.id, type: 'Subjective', tags_field: "also", category_field: "#{@category.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}})
       end
       
       describe "should_receive methods" do 
         before do 
           @tag_list = []
           @question.stub(:tag_list).and_return(@tag_list)
-          @tag_list.stub(:add).with(["LapTop"]).and_return(@tag_list)
+          @tag_list.stub(:remove).with([]).and_return(true)
+          @tag_list.stub(:add).with(["also"]).and_return(@tag_list)
         end
 
         it "should_receive tag_list" do 
@@ -62,7 +56,7 @@ shared_examples_for 'use taggable module' do
         end
 
         it "should_receive add" do 
-          @tag_list.should_receive(:add).with(["LapTop"]).and_return(@tag_list)
+          @tag_list.should_receive(:add).with(["also"]).and_return(@tag_list)
         end
 
         after do 
@@ -72,23 +66,9 @@ shared_examples_for 'use taggable module' do
         
       it "should create tags" do 
         @question.save!
-        @question.tags.first.name.should eq("LapTop")
+        @question.tags.first.name.should eq("also")
       end
     end
   end
-
-  describe "#remove_tags" do
-    before do 
-      @question = Question.new(question: "what is this?", question_type_id: @question_type.id, question_level_id: @question_level.id, tags_field: "Lap", user_id: @user.id )
-      @question.save
-    end
-
-    it "should remove the tag" do 
-      old_tags_count = @question.tags.size
-      @question.remove_tags(["Lap"])
-      # @question.tags.reload.count.should eq(old_tags_count - 1)
-    end
-  end
-
 
 end

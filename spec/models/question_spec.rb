@@ -3,17 +3,17 @@ require 'spec_helper'
 describe Question do 
 
   it_should "use taggable module"
+  it_should 'should add audit callbacks'
   
   before(:each) do 
-    @user = User.create(email: "ashutosh.tiwari@vinsol.com")
-    @question_type = QuestionType.create(name: "subjective")
+    @user = User.create!(email: "ashutosh.tiwari@vinsol.com")
     @question_level = QuestionLevel.create(name: "beginner")
-    @question = Question.create(question: "What is sql?", question_type_id: @question_type.id, question_level_id: @question_level.id, user_id: @user.id)
+    @category = Category.create(name: 'test', questions_count: 0)
+    @question = Question.create!(question: "What is sql?", question_level_id: @question_level.id, user_id: @user.id, type: 'Subjective', tags_field: "also", category_field: "#{@category.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}})
   end
 
   describe 'validation' do 
     it { should validate_presence_of(:question) }
-    it { should validate_presence_of(:question_type) }
     it { should validate_presence_of(:question_level) }
     it { should validate_presence_of(:user) }
   end
@@ -21,8 +21,7 @@ describe Question do
   describe "association" do 
     it { should belong_to(:user) }
     it { should belong_to(:question_level) }
-    it { should belong_to(:question_type) }
-
+   
     it { should have_many(:options).dependent(:destroy) }
     it { should have_many(:categories).through(:categories_questions) }
     it { should have_many(:categories_questions).dependent(:destroy) }
@@ -31,14 +30,13 @@ describe Question do
   end
 
   describe "accept_nested_attributes_for" do 
-    it { should accept_nested_attributes_for(:categories_questions).allow_destroy(true) }
     it { should accept_nested_attributes_for(:options).allow_destroy(true) }
   end
 
   describe "scope published" do 
     context "question is published" do 
       before do 
-        @question.publish
+        @question.publish!
       end
 
       it "should return @question" do
@@ -60,7 +58,7 @@ describe Question do
   describe "scope unpublished" do 
     context "question is published" do 
       before do 
-        @question.publish
+        @question.publish!
       end
 
       it "should return blank" do
@@ -84,7 +82,7 @@ describe Question do
 
     context "published_at is not nil" do 
       before do 
-        @question.publish
+        @question.publish!
       end
 
       it "should return true" do 
@@ -93,16 +91,16 @@ describe Question do
     end
   end
 
-  describe "#unpublish" do
+  describe "#unpublish!" do
     it "should update the published_at to nil" do 
-      @question.unpublish
+      @question.unpublish!
       @question.published_at.should be_nil
     end
   end
 
-  describe "#publish" do 
+  describe "#publish!" do 
     before do 
-      @question.publish
+      @question.publish!
     end
 
     it "should update published_at  with time" do 

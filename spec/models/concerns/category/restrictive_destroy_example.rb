@@ -2,12 +2,13 @@ shared_examples_for 'use category restrictive destroy' do
 
   describe "before_destroy #destroyable?" do
     before do 
+      Question.any_instance.stub(:sub_options_and_answer).and_return(true)
       @obj = described_class.create(name: "test")
     end
     
     context "questions present" do 
       before do 
-        @obj.questions << @question
+        @obj.stub(:questions).and_return(@question)
       end
 
       it "should return false" do 
@@ -22,7 +23,7 @@ shared_examples_for 'use category restrictive destroy' do
 
       context "sub category has questions" do 
         before do 
-          @obj.questions << @question
+          @obj.stub(:questions).and_return(@question)
         end
 
         it "should return false" do 

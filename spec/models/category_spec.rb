@@ -3,13 +3,13 @@ require 'spec_helper'
 describe Category do 
   
   it_should 'use category restrictive destroy'
+  it_should 'should add audit callbacks'
     
   before(:each) do 
     @user = User.create(email: "ashutosh.tiwari@vinsol.com")
-    @question_type = QuestionType.create(name: "subjective")
     @question_level = QuestionLevel.create(name: "beginner")
-    @question = Question.create(question: "What is sql?", question_type_id: @question_type.id, question_level_id: @question_level.id, user_id: @user.id)
-    @category = Category.create(name: "GS")
+    @category = Category.create!(name: "GS")
+    @question = Question.new(question: "What is sql?", type: "Subjective", question_level_id: @question_level.id, user_id: @user.id, "category_field"=>"1", "options_attributes"=>{"1384331840566"=>{"answer"=>"1", "option"=>"zxfvsdf", "_destroy"=>"false"}})
   end
 
   describe 'validation' do 
@@ -56,9 +56,23 @@ describe Category do
   end
 
   describe "#to_node" do 
-   it "should return a hash with name and id" do 
-    @category.to_node.should eq({"label"=>"#{@category.name}", "id"=> @category.id,"children"=>[]})
-   end
- end
+    it "should return a hash with name and id" do 
+      @category.to_node.should eq({"label"=>"#{@category.name}", "id"=> @category.id,"children"=>[]})
+    end
+  end
+
+  describe "#update_values" do 
+    before do 
+      @category2 = Category.create(name: "demo")
+      @path = @category.path_ids
+      p 
+      @data = {:target_node => @category.id}
+    end
+
+    it "should update ancestry with path ids" do 
+      @category2.update_values(@data)
+      @category2.ancestry.should eq(@path.join("/"))
+    end
+  end
 
 end

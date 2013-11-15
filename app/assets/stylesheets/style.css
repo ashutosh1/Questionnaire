@@ -7,7 +7,8 @@ a:hover {text-decoration: none;}
 .loadingText { position: fixed; top: 40%; left: 42%; padding: 10px; background: #000; color: #fff; opacity: 1; font-size: 15px; z-index: 50;text-align: center;width: 150px;border-radius: 5px 5px 5px 5px!important; }
 #addTagButton { color: blue; cursor: pointer; text-decoration: none; }
 #addTagButton:hover{ cursor: pointer;color:black; text-decoration: none;}
-.DelTag { background:#cccccc; margin:3px; cursor:pointer; padding-left:7px;padding-right:5px;  }
+.DelTag, .DelCategory { margin:2px; cursor:pointer; padding-left:4px;padding-right:5px;display: inline;color: black!important;}
+.css_class_for_tag{color: black!important;display: inline;}
 #my_tree{padding-left: 200px;padding-top: 2px;padding-bottom: 2px; border: 2px solid grey;border-radius: 5px;width:70%;}
 .highlighted, .highlighted:hover { color:white !important;background-color:#0081c2 !important; text-shadow: none !important;}
 .flashMessageDiv{width:90%;display: inline-block;padding-right: 5px;margin-left: 15px;}
@@ -52,4 +53,9 @@ div#signInLink {padding-left: 35%;font-size: 2em;font-style: italic;font-weight:
 div#signInLink a:hover{text-decoration: none;color: black;}
 a#userEmailHintLink{ 	font-size: 1.5em;}
 span#emailError{display: block;font-style:italic;color: red; }
-.testSetError{background: red;}
+.testSetError{background-color: #f2dede;color: #b94a48;border: 5px solid #eed3d7;border-radius: 5px;}
+.testSetQuestion{background-color: #F1F1F1;color: #b94a48;border: 5px solid #F1F1F1;border-radius: 5px;display: block;margin-bottom: 10px;}
+span.testsetQuestionSpan{display: block;}
+div.downloadLink{display: block;padding: 10px;  margin-left: 10px;  }
+.testsetSpan{color: black;}
+.newFormForTestSet{border: 5px solid;border-radius: 5px;padding: 10px;margin: 10px;}
