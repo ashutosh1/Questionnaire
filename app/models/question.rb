@@ -25,8 +25,6 @@ class Question < ActiveRecord::Base
   # CR_Priyank: published? can be an alias method of published_at?
   alias_attribute :published, :published_at
 
-  scope :question_with_type, lambda{|typ| where(type: typ) if typ}
-
   # CR_Priyank: setting published_at can be done without calling callbacks and validations
   def publish!
     update_column(:published_at, Time.current)

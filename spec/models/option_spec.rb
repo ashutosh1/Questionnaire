@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Option do 
 
+  it_should 'should add audit callbacks'
+
   before(:each) do 
     @user = User.create(email: "ashutosh.tiwari@vinsol.com")
     @option = Option.new(question_id: 1, option: "test")

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe TestSet do 
   it_should 'should add audit callbacks'
-  # it_should 'use search questions module'
+  it_should 'use search questions module'
   
   before do
     @user = User.create(email: "ashutosh.tiwari@vinsol.com")
@@ -12,6 +12,7 @@ describe TestSet do
     @category = Category.create(name: "test")
     @question1 = Question.create!(question: "What is sql?", question_level_id: @ql1.id, user_id: @user.id, type: 'Subjective', tags_field: "also", category_field: "#{@category.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}})
     @question2 = Question.create!(question: "How r u?", question_level_id: @ql2.id, user_id: @user.id, type: 'Subjective', tags_field: "also", category_field: "#{@category.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}})
+    @questions = [@question1]
   end
   
   describe "association" do 

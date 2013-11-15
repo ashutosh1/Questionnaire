@@ -12,7 +12,9 @@ module GenerateSets
       filename = "public/reports/#{file_name}/#{file_name}_#{i+1}.docx"
 
       document = RTF::Document.new(RTF::Font.new(RTF::Font::ROMAN, 'Times New Roman'))
+
       generate_set(document, i, questions)
+      document.page_break()
       generate_set_answer(document, i, questions)
       File.open(filename, 'w') {|file| file.write(document.to_rtf)}
     end
@@ -20,33 +22,37 @@ module GenerateSets
   end
 
     def generate_set(document, i, questions)
-       styles = {}
-       styles['PS_CODE'] =  RTF::ParagraphStyle.new
-       styles['CS_CODE'] =  RTF::CharacterStyle.new
+      styles = {}
+      styles['HEADER'] = RTF::CharacterStyle.new
+      styles['HEADER'].bold      = true
+      styles['HEADER'].font_size = 28
+      styles['NORMAL'] = RTF::ParagraphStyle.new
+      styles['INDENTED'] = RTF::ParagraphStyle.new
+      styles['INDENTED'].left_indent = 100
 
-       styles['PS_CODE'].left_indent = 200
-       styles['CS_CODE'].bold        = true
+      document.paragraph do |p|
+         p.apply(styles['HEADER']) do |s|
+            s << "#{file_name} set #{i+1}"
+         end
+      end
 
-      document.paragraph(styles['PS_CODE']) do |p1|
-        p1.apply(styles['CS_CODE']) do |p2|
-          p2 << "#{file_name} set #{i+1}"
-          2.times{ p2.line_break }
-          p2 << "Instruction: #{instruction}"
-          2.times{ p2.line_break }
-          k = 1
-          questions.each do |q|
-            p2 << "Question#{k}: #{q.question}"
-            p2.line_break
-            if q.options.size > 1
-              op_count = 1
-              q.options.shuffle.each do |op|
-                p2 << "#{op_count}. #{op.option}"
-                op_count += 1
-              end
-              p2.line_break
+      document.paragraph(styles['NORMAL']) do |p|
+        2.times{ p.line_break }
+        p << "Instruction: #{instruction}"
+        2.times{ p.line_break }
+        k = 1
+        questions.each do |q|
+          p << "Question#{k}: #{q.question}"
+          p.line_break
+          if q.options.size > 1
+            op_count = 1
+            q.options.shuffle.each do |op|
+              p << "#{op_count}. #{op.option} "
+              op_count += 1
             end
-            k += 1
+            p.line_break
           end
+          k += 1
         end
       end
     end

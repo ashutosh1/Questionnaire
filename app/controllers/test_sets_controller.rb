@@ -1,7 +1,7 @@
 class TestSetsController < ApplicationController
   include GenerateAndSendSets
 
-  load_resource only: [:show, :download_sets]
+  load_resource only: [:show, :download_sets], :find_by => :permalink
   before_action :assign_variables, only: :search_questions
   before_action :filter_and_get_num_of_questions, only: :search_questions
   before_action :find_questions, only: :create
@@ -18,7 +18,6 @@ class TestSetsController < ApplicationController
     if @test_set.save
       if params[:num_of_sets].present?
         generate_and_send_sets(params[:num_of_sets].to_i)
-        render :nothing => true
       else
         redirect_to test_sets_path, :notice => "Test Set has been created successfully"
       end
@@ -29,7 +28,6 @@ class TestSetsController < ApplicationController
 
   def download_sets
     generate_and_send_sets(params[:num_of_sets].to_i)
-    render :nothing => true
   end
 
   def search_questions

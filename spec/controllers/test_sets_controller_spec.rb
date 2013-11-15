@@ -6,7 +6,7 @@ describe TestSetsController do
   shared_examples_for "call before_action load_resource for test sets" do 
 
     it "Question should_receive find" do 
-      TestSet.should_receive(:find).and_return(test_set)
+      TestSet.should_receive(:find_by_permalink!).and_return(test_set)
       send_request
     end
 
@@ -19,7 +19,7 @@ describe TestSetsController do
 
     context "record not found" do 
       before do 
-        TestSet.stub(:find).and_return(nil)
+        TestSet.stub(:find_by_permalink!).and_return(nil)
       end
 
       it "should raise exception" do 
@@ -110,7 +110,7 @@ describe TestSetsController do
   let(:category1) {mock_model(Category, save: true, id: 1, name: 'category1')}
   let(:question_level) {mock_model(QuestionLevel, save: true, id: 2, name: 'beginner')}
   let(:question) { mock_model(Question, save: true, question: "What is sql?", question_level_id: question_level.id, user_id: user.id, type: 'Subjective', tags_field: "also", category_field: "#{category1.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}}) }
-  let(:test_set) {mock_model(TestSet)} 
+  let(:test_set) {mock_model(TestSet, save: true, name: "test", instruction: "fill all", permalink: "test")} 
 
   before do
     controller.stub(:current_user).and_return(user)
@@ -216,21 +216,27 @@ describe TestSetsController do
       end
 
       context "num_of_sets present" do 
-        before do 
-          controller.stub(:generate_and_send_sets).with(2).and_return(true)
-        end
-        
-        # it_should 'use generate_and_send_sets'
-
-        it "should_receive generate_and_send_sets" do 
-          controller.should_receive(:generate_and_send_sets).with(2).and_return(true)
+        def send_request
           post :create, test_set: {name: "set", instruction: "do not copy"}, question_id: "#{question.id}", num_of_sets: 2
         end
+
+        before do 
+          test_set.stub(:file_name).and_return("file_name")
+          File.open("public/reports/#{test_set.file_name}.zip", "w"){|f|}
+          @file = File.new("public/reports/#{test_set.file_name}.zip")
+          test_set.stub(:generate_different_sets)
+          File.stub(:new).and_return(@file)
+          @file.stub(:read).and_return(@file)
+          # controller.stub(:send_data).with(@file, :type=>"application/zip", :disposition=>"attachment", :filename => "file_name.zip").and_return(true)
+        end
+        
+        it_should 'use generate_and_send_sets module'
 
         it "should not render_template" do 
           send_request
           response.should render_template nil
         end
+
       end
     end
 
@@ -258,7 +264,7 @@ describe TestSetsController do
 
   describe "SHOW" do 
     def send_request
-      get :show, id: test_set.id
+      get :show, id: test_set.permalink
     end
 
     it_should 'should_receive authorize_resource'
@@ -267,7 +273,7 @@ describe TestSetsController do
 
     before do 
       should_authorize(:show, test_set)
-      TestSet.stub(:find).and_return(test_set)
+      TestSet.stub(:find_by_permalink!).and_return(test_set)
     end
 
     it "should render_template show" do 
@@ -332,17 +338,18 @@ describe TestSetsController do
 
     it_should 'should_receive authorize_resource'
     it_should "call before_action load_resource for test sets"
-    # it_should 'use generate_and_send_sets'
+    it_should 'use generate_and_send_sets module'
 
     before do 
       should_authorize(:download_sets, test_set)
-      TestSet.stub(:find).and_return(test_set)
-      controller.stub(:generate_and_send_sets).with(2).and_return(true)
-    end
-
-    it "should_receive generate_and_send_sets" do 
-      controller.should_receive(:generate_and_send_sets).with(2).and_return(true)
-      send_request
+      TestSet.stub(:find_by_permalink!).and_return(test_set)
+      test_set.stub(:file_name).and_return("file_name")
+      File.open("public/reports/#{test_set.file_name}.zip", "w"){|f|}
+      @file = File.new("public/reports/#{test_set.file_name}.zip")
+      test_set.stub(:generate_different_sets)
+      File.stub(:new).and_return(@file)
+      @file.stub(:read).and_return(@file)
+      # controller.stub(:send_data).with(@file, :type=>"application/zip" , :filename => "file_name.zip").and_return(true)
     end
 
     it "should not render_template" do 
@@ -351,7 +358,7 @@ describe TestSetsController do
     end
   end
 
-  describe "params_question_level" do
+  describe "params_test_set" do
     def send_request
       post :create, test_set: {name: "set", instruction: "do not copy"}, question_id: "#{question.id}"
     end
