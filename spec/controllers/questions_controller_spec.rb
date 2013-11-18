@@ -59,12 +59,14 @@ describe QuestionsController do
   let(:tag) {mock_model(ActsAsTaggableOn::Tag, save: true, name: 'outdated')} 
   let(:tagging) {mock_model(ActsAsTaggableOn::Tagging)} 
   let(:test_set) {mock_model(TestSet)} 
+  let(:option) {mock_model(Option)} 
 
   before do
     controller.stub(:current_user).and_return(user)
     @users = [user]
     @test_sets = [test_set]
     @questions = [question]
+    @options = [option]
     @valid_attributes = { question: "How r u?", question_level_id: question_level.id, user_id: user.id, type: 'Subjective', tags_field: "also", category_field: "#{category2.id}", "options_attributes"=>{"1384334256874"=>{"answer"=>"1", "option"=>"asdfsafa", "_destroy"=>"false"}}}
     question.stub(:categories_questions).and_return([categories_question1])
     Category.stub(:where).with(["id NOT IN (?)", [question.id]]).and_return([category2])
@@ -155,6 +157,8 @@ describe QuestionsController do
       should_authorize(:new, Question)
       user.stub(:questions).and_return(@questions)
       @questions.stub(:build).and_return(question)
+      question.stub(:options).and_return(@options)
+      @options.stub(:build).and_return(@options)
     end
     
     describe "should_receive methods" do 
@@ -168,6 +172,14 @@ describe QuestionsController do
 
       it "should_receive build" do 
         @questions.should_receive(:build).and_return(question)
+      end
+
+      it "should_receive options" do 
+        question.should_receive(:options).and_return(@options)
+      end
+
+      it "should_receive build" do 
+        @options.should_receive(:build).and_return(@options)
       end
 
       after do 
@@ -184,6 +196,11 @@ describe QuestionsController do
       send_request
       response.should render_template "new"
     end
+
+    it "should assigns instance variable" do 
+      send_request
+      expect(assigns[:options]).to eq(@options)
+    end
   end
 
   describe "CREATE" do 
@@ -198,6 +215,7 @@ describe QuestionsController do
       controller.stub(:params_question).and_return(@valid_attributes)
       user.stub(:questions).and_return(@questions)
       @questions.stub(:build).and_return(question)
+      question.stub(:options).and_return(@options)
     end
 
     describe "should_receive methods" do 
@@ -249,6 +267,16 @@ describe QuestionsController do
     context "question not created" do 
       before do 
         question.stub(:save).and_return(false)
+      end
+
+      it "should_receive options" do 
+        question.should_receive(:options).and_return(@options)
+        send_request
+      end
+
+      it "should assigns instance variable" do 
+        send_request
+        expect(assigns[:options]).to eq(@options)
       end
 
       it "should not have a flash message" do
@@ -321,6 +349,7 @@ describe QuestionsController do
       Question.stub(:find).and_return(question)
       controller.stub(:params_question).and_return(@valid_attributes)
       question.stub(:update_attributes).with(@valid_attributes).and_return(true)
+      question.stub(:options).and_return(@options)
     end
 
     it "should_receive params_question" do 
@@ -351,6 +380,16 @@ describe QuestionsController do
     context "record not created" do 
       before do 
         question.stub(:update_attributes).and_return(false)
+      end
+
+      it "should_receive options" do 
+        question.should_receive(:options).and_return(@options)
+        send_request
+      end
+
+      it "should assigns instance variable" do 
+        send_request
+        expect(assigns[:options]).to eq(@options)
       end
 
       it "should not have flash notice" do 
