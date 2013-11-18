@@ -4,6 +4,7 @@ describe Question do
 
   it_should "use taggable module"
   it_should 'should add audit callbacks'
+  it_should 'update questions count for question model'
   
   before(:each) do 
     @user = User.create!(email: "ashutosh.tiwari@vinsol.com")

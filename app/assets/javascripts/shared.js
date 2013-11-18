@@ -185,3 +185,32 @@ function fillCategoryId() {
   $("#question_category_field").val(catg);
 }
 
+
+$(function() {
+
+  $('.optionsDiv').on('nested:fieldAdded', function(event){
+    toggle_mcq($('#question_type').val());
+    handleRadioButtonClicks();
+  })
+
+  handleRadioButtonClicks();
+
+});
+
+function handleRadioButtonClicks(){
+  $('.radio-button').on("click", function(event){
+    $('.radio-button').prop('checked', false);
+    $(this).prop('checked', true);
+  });
+};
+
+function toggle_mcq(type) {
+  var option_cont = $(".optionsDiv");
+  if(type=='Mcq'){
+    option_cont.find('input[type=checkbox], input[type=hidden]').attr('disabled', true).addClass("hidden");
+    option_cont.find('input[type=radio]').removeAttr('disabled').removeClass("hidden");
+  }else if(type == 'Mcqma'){
+    option_cont.find('input[type=radio]').attr('disabled', true).addClass('hidden');
+    option_cont.find('input[type=checkbox], input[type=hidden]').removeAttr('disabled').removeClass("hidden");
+  }
+}

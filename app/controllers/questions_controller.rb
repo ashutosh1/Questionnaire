@@ -14,6 +14,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = current_user.questions.build
+    @options = @question.options.build
   end
 
   def create
@@ -21,6 +22,7 @@ class QuestionsController < ApplicationController
     if @question.save
       redirect_to questions_path, :notice => "Question has been created successfully"
     else
+      @options = @question.options 
       render :new
     end
   end
@@ -29,6 +31,7 @@ class QuestionsController < ApplicationController
     if @question.update_attributes(params_question)
       redirect_to questions_path, :notice => "Question has been updated successfully"
     else
+      @options = @question.options 
       render :edit
     end
   end

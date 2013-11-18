@@ -1,0 +1,7 @@
+<div id='subjective'>
+  <%= f.fields_for :options, @options do |c| %>
+    <%= c.text_area :option %>
+    <%= c.hidden_field :id %>
+    <%= c.hidden_field :_destroy %>
+  <% end %>
+</div>

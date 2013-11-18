@@ -3,7 +3,7 @@ class CategoriesQuestion
     extend ActiveSupport::Concern
 
     included do
-      after_save :increase_questions_count 
+      after_create :increase_questions_count 
       after_destroy :decrease_questions_count
     end
     

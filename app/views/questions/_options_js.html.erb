@@ -1,0 +1,26 @@
+<script>
+  function show_question_type_form(){
+    var option_cont = $(".optionsDiv");
+    var type = $(this).val();
+    if(type == "Subjective"){
+      option_cont.html("<%= escape_javascript(render :partial => 'subjective', :locals => {:f => f}) %>");
+    }else if(type == 'Mcq'){
+      <% type = 'Mcq' %>
+      render_template_and_toggle(option_cont, type)
+    }else if(type == 'Mcqma') {
+      <% type = 'Mcqma' %>
+      render_template_and_toggle(option_cont, type)
+    }
+  };
+  
+  function render_template_and_toggle(option_cont, type){
+    if(option_cont.find('input[type=text]').length == 0){
+      option_cont.html("<%= escape_javascript(render :partial => 'mcq', :locals => {:f => f, :type => type}) %>");
+    }
+    toggle_mcq(type);
+  }
+
+  $("#question_type").on("change", show_question_type_form);
+  $("#question_type").trigger('change');
+  
+</script>

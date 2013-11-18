@@ -6,7 +6,7 @@ shared_examples_for 'use search questions module' do
     @question_types = ["Subjective"]   
     @categories = "geography,"
     @tags = "also,"
-          @conditions = ["1 AND categories.name in (?) AND tags.name in (?) AND type = ?", @category.name, "also", "Subjective"]
+    @conditions = ["1 AND categories.name in (?) AND tags.name in (?) AND type = ?", @category.name, "also", "Subjective"]
   end
 
   describe ".get_questions" do 

@@ -9,7 +9,7 @@
   <div class="control-group">
     <%= f.label :question_type, :class => 'control-label' %><span class="requiredField"><%= mark_required(@question, 'question_type') %></span>
     <div class="controls">
-      <%= f.select :type, options_for_select(select_question_type, @question.type),include_blank: true %>
+      <%= f.select :type, options_for_select(select_question_type, @question.type), include_blank: true %>
     </div>
   </div>  
   <div class="control-group">
@@ -44,10 +44,8 @@
 
   <div class="control-group">
     <%= f.label :options, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.link_to_add "Add options", :options, :data => { :target => "#optionsForm" } %>
-      <%= render :partial => "options", :locals => {:f => f}  %>
-    </div>
+    <div class="controls optionsDiv"></div>
+    <%= render :partial => "options_js", :locals => {:f => f} %>
   </div>
   
   <div class="form-actions">

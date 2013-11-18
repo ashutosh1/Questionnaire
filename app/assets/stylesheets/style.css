@@ -59,3 +59,4 @@ span.testsetQuestionSpan{display: block;}
 div.downloadLink{display: block;padding: 10px;  margin-left: 10px;  }
 .testsetSpan{color: black;}
 .newFormForTestSet{border: 5px solid;border-radius: 5px;padding: 10px;margin: 10px;}
+.hidden{display: none;}

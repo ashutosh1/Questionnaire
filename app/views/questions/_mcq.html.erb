@@ -1,0 +1,14 @@
+<div id="mcq">
+  <%= f.link_to_add 'Add Options', :options, :data => { :target => "#mcq_options" } %>
+  <div id="mcq_options">
+    <%= f.fields_for :options, @options do |c| %>
+      <%= c.text_field :option %>
+      <%= c.radio_button :answer, '1', :checked => c.object.answer, :disabled => (type == 'Mcqma'), :class => "radio-button" %>
+      <%= c.check_box :answer, :disabled => (type == 'Mcq') %>
+      <%= c.link_to_remove '', :class => "icon-remove" %>
+      <%= c.hidden_field :id %>
+      <%= c.hidden_field :_destroy %>
+      <br /><br />
+    <% end %>
+  </div>
+</div>

@@ -3,7 +3,7 @@ module GenerateSets
 
   def generate_different_sets(num_of_sets)
     # CR_Priyank: Come up with a solution to clear this directory periodically
-    system("mkdir public/reports/#{file_name}")
+    system("mkdir -p public/reports/#{file_name}")
     questions = self.questions.includes(:options)
     num_of_sets.times do|i|
       # CR_Priyank: I am not sure why are shuffling questions here, instead we can shuffle them at time of looping
@@ -31,9 +31,9 @@ module GenerateSets
       styles['INDENTED'].left_indent = 100
 
       document.paragraph do |p|
-         p.apply(styles['HEADER']) do |s|
-            s << "#{file_name} set #{i+1}"
-         end
+        p.apply(styles['HEADER']) do |s|
+          s << "#{file_name} set #{i+1}"
+        end
       end
 
       document.paragraph(styles['NORMAL']) do |p|
@@ -70,8 +70,6 @@ module GenerateSets
         end
       end
     end
-
-
   
   def compress_all_sets_together
     directory = "public/reports/#{file_name}/"

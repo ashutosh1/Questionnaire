@@ -5,7 +5,7 @@ Questionnaire::Application.routes.draw do
   end
 
   get "/users/(:type)", to: "users#index", type: /deleted/, as: "users"
-
+  
   resources :users, except: [:show, :new, :index]
 
   concern :nested_questions do
