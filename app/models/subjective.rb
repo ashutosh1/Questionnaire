@@ -1,4 +1,6 @@
 class Subjective < Question
+  include ActiveModel::Validations
+  
   validate :sub_options_and_answer
 
   def sub_options_and_answer
