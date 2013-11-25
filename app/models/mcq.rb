@@ -1,4 +1,6 @@
 class Mcq < Question
+  include ActiveModel::Validations
+  
   validate :mcq_options_and_answer
 
   def mcq_options_and_answer
