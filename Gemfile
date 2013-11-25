@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.0.0'
 
-gem 'mysql2', '~> 0.3.11'
+gem 'mysql2', '0.3.14'
 gem 'devise', '3.0.0.rc'
 gem 'omniauth-google-oauth2'
 gem 'cancan'
