@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 20131111131844) do
   end
 
   create_table "test_sets", force: true do |t|
+    t.string   "number"
     t.string   "name"
     t.text     "instruction"
     t.datetime "created_at"
@@ -136,6 +137,7 @@ ActiveRecord::Schema.define(version: 20131111131844) do
   end
 
   add_index "test_sets", ["name"], name: "index_test_sets_on_name", using: :btree
+  add_index "test_sets", ["number"], name: "index_test_sets_on_number", using: :btree
   add_index "test_sets", ["permalink"], name: "index_test_sets_on_permalink", using: :btree
 
   create_table "users", force: true do |t|
